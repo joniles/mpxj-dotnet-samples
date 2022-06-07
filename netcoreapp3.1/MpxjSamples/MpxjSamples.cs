@@ -17,7 +17,7 @@ Console.WriteLine();
 //
 // Read a schedule from a sample file.
 //
-ProjectFile file = new UniversalProjectReader().read("/Users/joniles/mpxj-data/private/data/MPP/Project1.mpp");
+ProjectFile file = new UniversalProjectReader().read("example.mpp");
 
 //
 // Let's take a simple approach to examning all of the non-null attributes

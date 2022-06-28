@@ -1,8 +1,4 @@
 ﻿using net.sf.mpxj;
-using net.sf.mpxj.reader;
-using Task = net.sf.mpxj.Task;
-using net.sf.mpxj.MpxjUtilities;
-using System.Linq;
 using System.Collections.Immutable;
 
 public class BuildFieldDictionary

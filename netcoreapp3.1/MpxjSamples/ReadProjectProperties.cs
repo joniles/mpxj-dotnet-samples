@@ -1,7 +1,5 @@
 ﻿using net.sf.mpxj;
 using net.sf.mpxj.reader;
-using Task = net.sf.mpxj.Task;
-using net.sf.mpxj.MpxjUtilities;
 
 public class ReadProjectProperties
 {

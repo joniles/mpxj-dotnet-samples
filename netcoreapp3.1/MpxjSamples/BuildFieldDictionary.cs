@@ -15,5 +15,17 @@ public class BuildFieldDictionary
         //
         var field = dictionary["TEXT1"];
         System.Console.WriteLine($"Field name={field.name()} User-visible name={field.Name} Data type={field.DataType} Parent type={field.FieldTypeClass}");
+
+        //
+        // Alternative approach
+        //
+        dictionary = new Dictionary<string, TaskField>();
+        foreach(TaskField t in TaskField.values())
+        {
+            dictionary.Add(t.name(), t);
+        }
+
+        field = dictionary["TEXT1"];
+        System.Console.WriteLine($"Field name={field.name()} User-visible name={field.Name} Data type={field.DataType} Parent type={field.FieldTypeClass}");
     }
 }

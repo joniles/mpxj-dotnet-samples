@@ -17,7 +17,7 @@ public class BuildFieldDictionary
         System.Console.WriteLine($"Field name={field.name()} User-visible name={field.Name} Data type={field.DataType} Parent type={field.FieldTypeClass}");
 
         //
-        // Alternative approach
+        // Alternative approach using simple iteration
         //
         dictionary = new Dictionary<string, TaskField>();
         foreach(TaskField t in TaskField.values())

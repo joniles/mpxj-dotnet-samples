@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "MpxjTest": {
+      "commandName": "Project",
+      "commandLineArgs": "c:\\java\\mpxj\\junit\\data"
+    }
+  }
+}

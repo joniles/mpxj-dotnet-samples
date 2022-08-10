@@ -2,3 +2,4 @@
 new ReadTaskFields().Execute();
 new ReadProjectProperties().Execute();
 new BuildFieldDictionary().Execute();
+new CustomFieldDefinitions().Execute();

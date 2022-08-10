@@ -8,7 +8,7 @@ public class CustomFieldDefinitions
 {
     public void Execute()
     {
-        ProjectFile file = new UniversalProjectReader().read("/Users/joniles/Downloads/Enterprise Project Test 8.mpp");
+        ProjectFile file = new UniversalProjectReader().read("example.mpp");
         foreach(CustomField field in file.CustomFields)
         {
             // Show the name of the field (and the entity to which it belongs)

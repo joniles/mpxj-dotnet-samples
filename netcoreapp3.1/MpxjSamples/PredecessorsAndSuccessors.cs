@@ -16,7 +16,6 @@ public class PredecessorsAndSuccessors
         {
             foreach (Relation r in t.Predecessors.ToIEnumerable())
             {
-
                 System.Console.WriteLine("Task UniqueID: " + t.UniqueID + " Predcessor: " + r.TargetTask.UniqueID + " Type: " + r.Type);
             }
         }

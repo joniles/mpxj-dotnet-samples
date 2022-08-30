@@ -4,3 +4,4 @@ new ReadProjectProperties().Execute();
 new BuildFieldDictionary().Execute();
 new CustomFieldDefinitions().Execute();
 new PredecessorsAndSuccessors().Execute();
+new AnonymizeAProject().Execute();

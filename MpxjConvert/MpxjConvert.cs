@@ -12,8 +12,9 @@ namespace MpxjSample
     {
         static void Main(string[] args)
         {
+#if NETCOREAPP
             System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
-
+#endif
             try
             {
                 if (args.Length != 2)
@@ -23,7 +24,7 @@ namespace MpxjSample
                 else
                 {
                     MpxjConvert convert = new MpxjConvert();
-                    convert.process(args[0], args[1]);
+                    convert.Process(args[0], args[1]);
                 }
             }
 
@@ -33,7 +34,7 @@ namespace MpxjSample
             }
         }
 
-        public void process(string inputFile, string outputFile)
+        public void Process(string inputFile, string outputFile)
         {
             Console.Out.WriteLine("Reading input file started.");
             DateTime start = DateTime.Now;

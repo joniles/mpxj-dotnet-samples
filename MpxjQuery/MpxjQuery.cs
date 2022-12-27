@@ -13,6 +13,10 @@ namespace MpxjQuery
         /// <param name="args">command line arguments</param>
         static void Main(string[] args)
         {
+#if NETCOREAPP
+            System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+#endif
+
             try
             {
                 if (args.Length != 1)
@@ -21,7 +25,7 @@ namespace MpxjQuery
                 }
                 else
                 {
-                    query(args[0]);
+                    Query(args[0]);
                 }
             }
 
@@ -37,45 +41,45 @@ namespace MpxjQuery
         /// from the an MPP or an MPX file.
         /// </summary>
         /// <param name="filename">name of the project file</param>
-        private static void query(String filename)
+        private static void Query(String filename)
         {
             ProjectReader reader = ProjectReaderUtility.getProjectReader(filename);
             ProjectFile mpx = reader.read(filename);
 
             System.Console.WriteLine("MPP file type: " + mpx.ProjectProperties.MppFileType);
 
-            listProjectHeader(mpx);
+            ListProjectHeader(mpx);
 
-            listResources(mpx);
+            ListResources(mpx);
 
-            listTasks(mpx);
+            ListTasks(mpx);
 
-            listAssignments(mpx);
+            ListAssignments(mpx);
 
-            listAssignmentsByTask(mpx);
+            ListAssignmentsByTask(mpx);
 
-            listAssignmentsByResource(mpx);
+            ListAssignmentsByResource(mpx);
 
-            listHierarchy(mpx);
+            ListHierarchy(mpx);
 
-            listTaskNotes(mpx);
+            ListTaskNotes(mpx);
 
-            listResourceNotes(mpx);
+            ListResourceNotes(mpx);
 
-            listRelationships(mpx);
+            ListRelationships(mpx);
 
-            listSlack(mpx);
+            ListSlack(mpx);
 
-            listCalendars(mpx);
+            ListCalendars(mpx);
 
-            listCustomFields(mpx);
+            ListCustomFields(mpx);
         }
 
         /// <summary>
         /// Reads basic summary details from the project header.
         /// </summary>
         /// <param name="file">project file</param>
-        private static void listProjectHeader(ProjectFile file)
+        private static void ListProjectHeader(ProjectFile file)
         {
             ProjectProperties header = file.ProjectProperties;
             String formattedStartDate = header.StartDate == null ? "(none)" : header.StartDate.ToDateTime().ToString();
@@ -89,7 +93,7 @@ namespace MpxjQuery
         /// This method lists all resources defined in the file.
         /// </summary>
         /// <param name="file">project file</param>
-        private static void listResources(ProjectFile file)
+        private static void ListResources(ProjectFile file)
         {
             foreach (Resource resource in file.Resources.ToIEnumerable())
             {
@@ -102,7 +106,7 @@ namespace MpxjQuery
         /// This method lists all tasks defined in the file.
         /// </summary>
         /// <param name="file">project file</param>
-        private static void listTasks(ProjectFile file)
+        private static void ListTasks(ProjectFile file)
         {
             foreach (Task task in file.Tasks.ToIEnumerable())
             {
@@ -165,12 +169,12 @@ namespace MpxjQuery
         /// reflecting the parent-child relationships between them.
         /// </summary>
         /// <param name="file">project file</param>
-        private static void listHierarchy(ProjectFile file)
+        private static void ListHierarchy(ProjectFile file)
         {
             foreach (Task task in file.ChildTasks.ToIEnumerable())
             {
                 System.Console.WriteLine("Task: " + task.Name);
-                listHierarchy(task, " ");
+                ListHierarchy(task, " ");
             }
 
             System.Console.WriteLine();
@@ -181,12 +185,12 @@ namespace MpxjQuery
         /// </summary>
         /// <param name="task">Task instance</param>
         /// <param name="indent">print indent</param>
-        private static void listHierarchy(Task task, String indent)
+        private static void ListHierarchy(Task task, String indent)
         {
             foreach (Task child in task.ChildTasks.ToIEnumerable())
             {
                 System.Console.WriteLine(indent + "Task: " + child.Name);
-                listHierarchy(child, indent + " ");
+                ListHierarchy(child, indent + " ");
             }
         }
 
@@ -194,7 +198,7 @@ namespace MpxjQuery
         /// This method lists all resource assignments defined in the file.
         /// </summary>
         /// <param name="file">project file</param>
-        private static void listAssignments(ProjectFile file)
+        private static void ListAssignments(ProjectFile file)
         {
             Task task;
             Resource resource;
@@ -235,7 +239,7 @@ namespace MpxjQuery
         /// assignments in the file, we extract the assignments on a task-by-task basis.
         /// </summary>
         /// <param name="file">project file</param>
-        private static void listAssignmentsByTask(ProjectFile file)
+        private static void ListAssignmentsByTask(ProjectFile file)
         {
             foreach (Task task in file.Tasks.ToIEnumerable())
             {
@@ -268,7 +272,7 @@ namespace MpxjQuery
         /// assignments in the file, we extract the assignments on a resource-by-resource basis.
         /// </summary>
         /// <param name="file">project file</param>
-        private static void listAssignmentsByResource(ProjectFile file)
+        private static void ListAssignmentsByResource(ProjectFile file)
         {
             foreach (Resource resource in file.Resources.ToIEnumerable())
             {
@@ -288,7 +292,7 @@ namespace MpxjQuery
         /// This method lists any notes attached to tasks..
         /// </summary>
         /// <param name="file">project file</param>
-        private static void listTaskNotes(ProjectFile file)
+        private static void ListTaskNotes(ProjectFile file)
         {
             foreach (Task task in file.Tasks.ToIEnumerable())
             {
@@ -307,7 +311,7 @@ namespace MpxjQuery
         /// This method lists any notes attached to resources.
         /// </summary>
         /// <param name="file">project file</param>
-        private static void listResourceNotes(ProjectFile file)
+        private static void ListResourceNotes(ProjectFile file)
         {
             foreach (Resource resource in file.Resources.ToIEnumerable())
             {
@@ -326,7 +330,7 @@ namespace MpxjQuery
         /// This method lists task predecessor and successor relationships.
         /// </summary>
         /// <param name="file">project file</param>
-        private static void listRelationships(ProjectFile file)
+        private static void ListRelationships(ProjectFile file)
         {
             foreach (Task task in file.Tasks.ToIEnumerable())
             {
@@ -335,9 +339,9 @@ namespace MpxjQuery
                 System.Console.Write(task.Name);
                 System.Console.Write('\t');
 
-                dumpRelationList(task.Predecessors);
+                DumpRelationList(task.Predecessors);
                 System.Console.Write('\t');
-                dumpRelationList(task.Successors);
+                DumpRelationList(task.Successors);
                 System.Console.WriteLine();
             }
         }
@@ -347,7 +351,7 @@ namespace MpxjQuery
         /// easily be compared with the tabular data in MS Project.
         /// </summary>
         /// <param name="relations">project file</param>
-        private static void dumpRelationList(java.util.List relations)
+        private static void DumpRelationList(java.util.List relations)
         {
             if (relations != null && relations.isEmpty() == false)
             {
@@ -390,7 +394,7 @@ namespace MpxjQuery
         /// List the slack values for each task.
         /// </summary>
         /// <param name="file">project file</param>
-        private static void listSlack(ProjectFile file)
+        private static void ListSlack(ProjectFile file)
         {
             foreach (Task task in file.Tasks.ToIEnumerable())
             {
@@ -402,7 +406,7 @@ namespace MpxjQuery
         /// List details of all calendars in the file.
         /// </summary>
         /// <param name="file">project file</param>
-        private static void listCalendars(ProjectFile file)
+        private static void ListCalendars(ProjectFile file)
         {
             foreach (ProjectCalendar cal in file.Calendars.ToIEnumerable())
             {
@@ -414,7 +418,7 @@ namespace MpxjQuery
         /// List details of custom fields in the file.
         /// </summary>
         /// <param name="file">project file</param>
-        private static void listCustomFields(ProjectFile file)
+        private static void ListCustomFields(ProjectFile file)
         {
             foreach (CustomField field in file.CustomFields.ToIEnumerable())
             {

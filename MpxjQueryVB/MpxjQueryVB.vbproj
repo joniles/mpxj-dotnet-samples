@@ -2,15 +2,16 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>MpxjQueryVB</RootNamespace>
+    <TargetFrameworks>net45;netcoreapp3.1</TargetFrameworks>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <OutputPath>..\bin</OutputPath>
+    <OutputPath>..\bin\</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="net.sf.mpxj-for-csharp" Version="10.14.0" />
+    <PackageReference Include="net.sf.mpxj-for-vb" Version="10.15.0" />
   </ItemGroup>
 
 </Project>

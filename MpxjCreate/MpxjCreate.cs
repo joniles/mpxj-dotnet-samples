@@ -13,6 +13,10 @@ namespace MpxjSample
     {
         static void Main(string[] args)
         {
+#if NETCOREAPP
+            System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+#endif
+
             try
             {
                 if (args.Length != 1)

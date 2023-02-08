@@ -22,14 +22,6 @@ public class CustomFieldDefinitions
 
             // Display the data type
             System.Console.WriteLine($"\tData Type: {field.FieldType.DataType.ToString()}");
-
-            // Special case: Enterprise Custom Fields have a data type of CUSTOM
-            // the actual type of the data they contain is held separately,
-            // we'll retrieve that detail here if it has been configured.
-            if (field.CustomFieldDataType != null)
-            {
-                System.Console.WriteLine($"\tCustom Field Data Type: {field.CustomFieldDataType}");
-            }
         }
     }
 }

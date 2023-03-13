@@ -5,13 +5,15 @@ using net.sf.mpxj.MpxjUtilities;
 
 public class CalendarSamples
 {
+    private const string DateFormat = "dd/MM/yyyy";
+
     public void Execute()
     {
         BasicOperations();
-        //calendarHierarchy();
-        //calendarUniqueID();
-        //defaultCalendar();
-        //workingOrNonWorkingExceptions();
+        CalendarHierarchy();
+        CalendarUniqueID();
+        DefaultCalendar();
+        WorkingOrNonWorkingExceptions();
     }
 
     private void BasicOperations()
@@ -131,16 +133,16 @@ public class CalendarSamples
         // Add an exception for a single day
         //
         System.Console.WriteLine("Add an exception for a single day");
-        var exceptionDate = DateTime.ParseExact("10/05/2022", "dd/MM/yyyy", null).ToJavaDate();
+        var exceptionDate = DateTime.ParseExact("10/05/2022", DateFormat, null).ToJavaDate();
 
         bool workingDate = calendar.isWorkingDate(exceptionDate);
-        System.Console.WriteLine(exceptionDate.ToDateTime().ToString("dd/MM/yyyy") + " is a " + (workingDate ? "working" : "non-working") + " day");
+        System.Console.WriteLine(exceptionDate.ToDateTime().ToString(DateFormat) + " is a " + (workingDate ? "working" : "non-working") + " day");
 
         ProjectCalendarException exception = calendar.addCalendarException(exceptionDate);
         exception.Name = "A day off";
 
         workingDate = calendar.isWorkingDate(exceptionDate);
-        System.Console.WriteLine(exceptionDate.ToDateTime().ToString("dd/MM/yyyy") + " is a " + (workingDate ? "working" : "non-working") + " day");
+        System.Console.WriteLine(exceptionDate.ToDateTime().ToString(DateFormat) + " is a " + (workingDate ? "working" : "non-working") + " day");
 
         //
         // Make this a half-day
@@ -150,11 +152,11 @@ public class CalendarSamples
         finishTime = DateHelper.getTime(12, 0);
         exception.add(new DateRange(startTime, finishTime));
         workingDate = calendar.isWorkingDate(exceptionDate);
-        System.Console.WriteLine(exceptionDate.ToDateTime().ToString("dd/MM/yyyy") + " is a " + (workingDate ? "working" : "non-working") + " day");
+        System.Console.WriteLine(exceptionDate.ToDateTime().ToString(DateFormat) + " is a " + (workingDate ? "working" : "non-working") + " day");
 
         System.Console.WriteLine("Working time on Tuesdays is normally "
             + calendar.getWork(Day.TUESDAY, TimeUnit.HOURS) + " but on "
-            + exceptionDate.ToDateTime().ToString("dd/MM/yyyy") + " it is "
+            + exceptionDate.ToDateTime().ToString(DateFormat) + " it is "
             + calendar.getWork(exceptionDate, TimeUnit.HOURS));
         System.Console.WriteLine();
 
@@ -164,8 +166,8 @@ public class CalendarSamples
         System.Console.WriteLine("Add an exception affecting a number of days");
         DateDump(calendar, "23/05/2022", "28/05/2022");
 
-        var exceptionStartDate = DateTime.ParseExact("24/05/2022", "dd/MM/yyyy", null).ToJavaDate();
-        var exceptionEndDate = DateTime.ParseExact("26/05/2022", "dd/MM/yyyy", null).ToJavaDate();
+        var exceptionStartDate = DateTime.ParseExact("24/05/2022", DateFormat, null).ToJavaDate();
+        var exceptionEndDate = DateTime.ParseExact("26/05/2022", DateFormat, null).ToJavaDate();
         exception = calendar.addCalendarException(exceptionStartDate, exceptionEndDate);
         startTime = DateHelper.getTime(9, 0);
         finishTime = DateHelper.getTime(13, 0);
@@ -178,8 +180,8 @@ public class CalendarSamples
         // Three weeks of 16 hour weekdays, with 8 hour days at weekends
         //
         System.Console.WriteLine("Represent a \"crunch\" period in October");
-        var weekStart = DateTime.ParseExact("01/10/2022", "dd/MM/yyyy", null).ToJavaDate();
-        var weekEnd = DateTime.ParseExact("21/10/2022", "dd/MM/yyyy", null).ToJavaDate();
+        var weekStart = DateTime.ParseExact("01/10/2022", DateFormat, null).ToJavaDate();
+        var weekEnd = DateTime.ParseExact("21/10/2022", DateFormat, null).ToJavaDate();
         calendar = file.addDefaultBaseCalendar();
         ProjectCalendarWeek week = calendar.addWorkWeek();
         week.Name = "Crunch Time!";
@@ -212,8 +214,34 @@ public class CalendarSamples
         recurringData.Occurrences = Integer.valueOf(5);
         recurringData.DayNumber = Integer.valueOf(1);
         recurringData.MonthNumber = Integer.valueOf(1);
-        recurringData.StartDate = DateTime.ParseExact("01/01/2023", "dd/MM/yyyy", null).ToJavaDate();
+        recurringData.StartDate = DateTime.ParseExact("01/01/2023", DateFormat, null).ToJavaDate();
         System.Console.WriteLine(recurringData);
+    }
+
+    private void CalendarHierarchy()
+    {
+        var file = new ProjectFile();
+        var parentCalendar = file.addDefaultBaseCalendar();
+        var christmasDay = DateTime.ParseExact("25/12/2023", DateFormat, null).ToJavaDate();
+        parentCalendar.addCalendarException(christmasDay);
+
+        var childCalendar = file.addDefaultDerivedCalendar();
+        childCalendar.Parent = parentCalendar;
+
+        System.Console.WriteLine(christmasDay + " is a working day: " + childCalendar.isWorkingDate(christmasDay));
+        System.Console.WriteLine();
+
+        parentCalendar.setCalendarDayType(Day.TUESDAY, DayType.NON_WORKING);
+        System.Console.WriteLine("Is " + Day.TUESDAY + " a working day: " + childCalendar.isWorkingDay(Day.TUESDAY));
+        System.Console.WriteLine();
+
+        SimpleCalendarDump(parentCalendar);
+        SimpleCalendarDump(childCalendar);
+
+        childCalendar.setCalendarDayType(Day.TUESDAY, DayType.WORKING);
+        var startTime = DateHelper.getTime(9, 0);
+        var finishTime = DateHelper.getTime(12, 30);
+        childCalendar.addCalendarHours(Day.TUESDAY).add(new DateRange(startTime, finishTime));
     }
 
     private void SimpleCalendarDump(ProjectCalendarDays calendar)
@@ -241,114 +269,78 @@ public class CalendarSamples
     private string FormatDateRanges(ProjectCalendarHours hours)
     {
         var list = hours.ToIEnumerable<DateRange>().ToList();
-        return string.Join(", ", list.Select(h => $"{TestFormat(h)} {h.Start.ToDateTime().ToString("HH:mm")} - {h.End.ToDateTime().ToString("HH:mm")}"));
-    }
-
-
-    private string TestFormat(DateRange range)
-    {
-        var javaDate = range.Start;
-        long javaTime = javaDate.getTime();
-        int dstOffset = java.util.TimeZone.getDefault().getOffset(javaTime);
-        long DATE_EPOCH_TICKS = 621355968000000000;
-        var ticks = DATE_EPOCH_TICKS + ((javaTime + dstOffset) * 10000);
-        return "X";
+        return string.Join(", ", list.Select(h => $"{h.Start.ToDateTime().ToString("HH:mm")}-{h.End.ToDateTime().ToString("HH:mm")}"));
     }
 
     private void DateDump(ProjectCalendar calendar, string startDate, string endDate)
     {
-        var start = DateTime.ParseExact(startDate, "dd/MM/yyyy", null);
-        var end = DateTime.ParseExact(endDate, "dd/MM/yyyy", null);
+        var start = DateTime.ParseExact(startDate, DateFormat, null);
+        var end = DateTime.ParseExact(endDate, DateFormat, null);
 
-        for (var date = start; date < end; date.AddDays(1))
+        for (var date = start; date < end; date = date.AddDays(1))
         {
-            System.Console.WriteLine(date.ToString("dd/MM/yyyy") + "\t" + calendar.GetWork(date.ToJavaDate(), TimeUnit.HOURS));
+            System.Console.WriteLine(date.ToString(DateFormat) + "\t" + calendar.GetWork(date.ToJavaDate(), TimeUnit.HOURS));
         }
 
         System.Console.WriteLine();
     }
 
-/*
-       private void calendarHierarchy() throws Exception
+    private void CalendarUniqueID()
     {
-        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        var file = new ProjectFile();
+        var calendar1 = file.addCalendar();
+        calendar1.Name = "Calendar 1";
 
-    ProjectFile file = new ProjectFile();
-    ProjectCalendar parentCalendar = file.addDefaultBaseCalendar();
-    Date christmasDay = df.parse("25/12/2023");
-    parentCalendar.addCalendarException(christmasDay);
+        var calendar2 = file.addCalendar();
+        calendar2.Name = "Calendar 2";
 
-    ProjectCalendar childCalendar = file.addDefaultDerivedCalendar();
-    childCalendar.setParent(parentCalendar);
+        var calendar3 = file.addCalendar();
+        calendar3.Name = "Calendar 3";
 
-    System.Console.WriteLine(christmasDay + " is a working day: " + childCalendar.isWorkingDate(christmasDay));
-    System.Console.WriteLine();
-
-    parentCalendar.setCalendarDayType(Day.TUESDAY, DayType.NON_WORKING);
-    System.Console.WriteLine("Is " + Day.TUESDAY + " a working day: " + childCalendar.isWorkingDay(Day.TUESDAY));
-    System.Console.WriteLine();
-
-    simpleCalendarDump(parentCalendar);
-    simpleCalendarDump(childCalendar);
-
-    childCalendar.setCalendarDayType(Day.TUESDAY, DayType.WORKING);
-    Date startTime = DateHelper.getTime(9, 0);
-    Date finishTime = DateHelper.getTime(12, 30);
-    childCalendar.addCalendarHours(Day.TUESDAY).add(new DateRange(startTime, finishTime));
-       }
-
-       private void calendarUniqueID()
-    {
-        ProjectFile file = new ProjectFile();
-        ProjectCalendar calendar1 = file.addCalendar();
-        calendar1.setName("Calendar 1");
-
-        ProjectCalendar calendar2 = file.addCalendar();
-        calendar2.setName("Calendar 2");
-
-        ProjectCalendar calendar3 = file.addCalendar();
-        calendar3.setName("Calendar 3");
-
-        file.getCalendars().forEach(c->System.Console.WriteLine(c.getName()));
+        foreach (ProjectCalendar c in file.Calendars)
+        {
+            System.Console.WriteLine(c.Name);
+        }
         System.Console.WriteLine();
 
-        file.getCalendars().forEach(c->System.Console.WriteLine(c.getName() + " (Unique ID: " + c.getUniqueID() + ")"));
+        foreach (ProjectCalendar c in file.Calendars)
+        {
+            System.Console.WriteLine(c.Name + " (Unique ID: " + c.UniqueID + ")");
+        }
         System.Console.WriteLine();
 
-        ProjectCalendar calendar = file.getCalendars().getByUniqueID(2);
-        System.Console.WriteLine(calendar.getName());
+        ProjectCalendar calendar = (ProjectCalendar)file.Calendars.GetByUniqueID(java.lang.Integer.valueOf(2));
+        System.Console.WriteLine(calendar.Name);
     }
 
-    private void defaultCalendar()
+    private void DefaultCalendar()
     {
-        ProjectFile file = new ProjectFile();
-        ProjectCalendar calendar = file.addDefaultBaseCalendar();
-        file.setDefaultCalendar(calendar);
-        System.Console.WriteLine("The default calendar name is " + file.getDefaultCalendar().getName());
+        var file = new ProjectFile();
+        var calendar = file.addDefaultBaseCalendar();
+        file.DefaultCalendar = calendar;
+        System.Console.WriteLine("The default calendar name is " + file.DefaultCalendar.Name);
         System.Console.WriteLine();
     }
 
-    private void workingOrNonWorkingExceptions() throws Exception
+
+    private void WorkingOrNonWorkingExceptions()
     {
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        var file = new ProjectFile();
+        var calendar = file.addDefaultBaseCalendar();
 
-    ProjectFile file = new ProjectFile();
-    ProjectCalendar calendar = file.addDefaultBaseCalendar();
+        //
+        // Add an exception without hours - this makes the day non-working
+        //
+        var nonWorkingException = calendar.addCalendarException(DateTime.ParseExact("23/05/2022", DateFormat, null).ToJavaDate());
+        System.Console.WriteLine("Exception represents a working day: " + !nonWorkingException.isEmpty());
 
-    //
-    // Add an exception without hours - this makes the day non-working
-    //
-    ProjectCalendarException nonWorkingException = calendar.addCalendarException(df.parse("2022-05-23"));
-    System.Console.WriteLine("Exception represents a working day: " + !nonWorkingException.isEmpty());
-
-    //
-    // Add an exception with hours to make this day working but with non-default hours
-    //
-    ProjectCalendarException workingException = calendar.addCalendarException(df.parse("2022-05-24"));
-    Date startTime = DateHelper.getTime(9, 0);
-    Date finishTime = DateHelper.getTime(13, 0);
-    workingException.add(new DateRange(startTime, finishTime));
-    System.Console.WriteLine("Exception represents a working day: " + !workingException.isEmpty());
-       }
-    */
+        //
+        // Add an exception with hours to make this day working but with non-default hours
+        //
+        var workingException = calendar.addCalendarException(DateTime.ParseExact("24/05/2022", DateFormat, null).ToJavaDate());
+        var startTime = DateHelper.getTime(9, 0);
+        var finishTime = DateHelper.getTime(13, 0);
+        workingException.add(new DateRange(startTime, finishTime));
+        System.Console.WriteLine("Exception represents a working day: " + !workingException.isEmpty());
+    }
 }

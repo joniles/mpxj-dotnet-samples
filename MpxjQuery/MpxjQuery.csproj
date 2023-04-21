@@ -10,7 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="net.sf.mpxj-for-csharp" Version="11.3.0" />
+    <PackageReference Include="net.sf.mpxj-for-csharp" Version="11.3.1" />
   </ItemGroup>
 
 </Project>

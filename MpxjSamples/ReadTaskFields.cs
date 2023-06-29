@@ -99,7 +99,7 @@ public class ReadTaskFields
                             // can manipulate the "raw" value directly, rather than
                             // relying on the ToString method. In this example we'll
                             // create a variable of the correct type:
-                            java.util.Date dateValue = (java.util.Date)value;
+                            java.time.LocalDateTime dateValue = (java.time.LocalDateTime)value;
 
                             // Now we can use one of the extension methods provided
                             // by MPXJ to convert to a dot net type, at which point

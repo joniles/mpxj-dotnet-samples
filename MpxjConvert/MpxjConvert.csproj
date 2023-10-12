@@ -10,7 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="net.sf.mpxj" Version="12.1.3" />
+    <PackageReference Include="net.sf.mpxj" Version="12.2.0" />
   </ItemGroup>
 
 </Project>

@@ -14,7 +14,7 @@
     <DefineDebug>false</DefineDebug>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="net.sf.mpxj-for-vb" Version="12.3.0" />
+    <PackageReference Include="net.sf.mpxj-for-vb" Version="12.4.0" />
   </ItemGroup>
 
 </Project>

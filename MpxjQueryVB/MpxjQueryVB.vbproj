@@ -13,8 +13,12 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DefineDebug>false</DefineDebug>
   </PropertyGroup>
+  
   <ItemGroup>
-    <PackageReference Include="net.sf.mpxj-for-vb" Version="12.9.0" />
+    <PackageReference Include="net.sf.mpxj-for-vb" Version="12.9.1" />
   </ItemGroup>
 
+  <ItemGroup Condition="'$(TargetFramework)' == 'net45'">
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="All" />
+  </ItemGroup>
 </Project>

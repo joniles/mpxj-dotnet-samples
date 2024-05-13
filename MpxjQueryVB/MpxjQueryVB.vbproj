@@ -15,7 +15,7 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <PackageReference Include="net.sf.mpxj-for-vb" Version="12.9.3" />
+    <PackageReference Include="net.sf.mpxj-for-vb" Version="12.10.0" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net45'">

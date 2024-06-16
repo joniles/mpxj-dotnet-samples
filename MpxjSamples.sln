@@ -11,9 +11,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MpxjQuery", "MpxjQuery\Mpxj
 EndProject
 Project("{778DAE3C-4631-46EA-AA77-85C1314464D9}") = "MpxjQueryVB", "MpxjQueryVB\MpxjQueryVB.vbproj", "{2AE544DB-32E8-430E-9289-4FA43054B4F2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MpxjTest", "MpxjTest\MpxjTest.csproj", "{E08BD0F5-FB29-48EC-8701-D10F9C63FC10}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MpxjTest.Legacy", "MpxjTest.Legacy\MpxjTest.Legacy.csproj", "{E08BD0F5-FB29-48EC-8701-D10F9C63FC10}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MpxjSamples", "MpxjSamples\MpxjSamples.csproj", "{1277973E-EC9E-4AD4-914C-DDCA67E7C001}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MpxjSamples", "MpxjSamples\MpxjSamples.csproj", "{1277973E-EC9E-4AD4-914C-DDCA67E7C001}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MpxjTest.Current", "MpxjTest.Current\MpxjTest.Current.csproj", "{A11E94EE-7D0D-4D3A-A5AB-2212A625E564}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{1277973E-EC9E-4AD4-914C-DDCA67E7C001}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1277973E-EC9E-4AD4-914C-DDCA67E7C001}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1277973E-EC9E-4AD4-914C-DDCA67E7C001}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A11E94EE-7D0D-4D3A-A5AB-2212A625E564}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A11E94EE-7D0D-4D3A-A5AB-2212A625E564}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A11E94EE-7D0D-4D3A-A5AB-2212A625E564}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A11E94EE-7D0D-4D3A-A5AB-2212A625E564}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using junit.framework;
+﻿using junit.framework;
 using junit.textui;
 using net.sf.mpxj.junit;
 
@@ -15,11 +11,12 @@ namespace MpxjSample
 #if NETCOREAPP
             System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
 #endif
+
             java.util.TimeZone.setDefault(java.util.TimeZone.getTimeZone("Europe/London"));
 
             if (args.Length == 0 || args.Length > 3)
             {
-                Console.Out.WriteLine("Usage: MpxjTest <mpxj test data directory> [<private test data directory>] [<private test data baseline directory>]");
+                System.Console.Out.WriteLine("Usage: MpxjTest <mpxj test data directory> [<private test data directory>] [<private test data baseline directory>]");
             }
             else
             {

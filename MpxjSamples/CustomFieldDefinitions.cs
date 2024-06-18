@@ -1,18 +1,18 @@
-﻿using net.sf.mpxj;
-using net.sf.mpxj.reader;
+﻿using MPXJ.Net;
+
 
 /// <summary>
 /// Illustrates retrieving custom field configuration details.
 /// </summary>
 public class CustomFieldDefinitions
 {
-    public void Execute()
+    public void Execute(string filename)
     {
-        ProjectFile file = new UniversalProjectReader().read("example.mpp");
+        var file = new UniversalProjectReader().Read(filename);
         foreach(CustomField field in file.CustomFields)
         {
             // Show the name of the field (and the entity to which it belongs)
-            System.Console.WriteLine($"{field.FieldType.FieldTypeClass.ToString()}.{field.FieldType.ToString()}");
+            System.Console.WriteLine($"{field.FieldType.FieldTypeClass}.{field.FieldType}");
 
             // If the field has been given a new name, display it
             if (field.Alias != null)
@@ -21,7 +21,7 @@ public class CustomFieldDefinitions
             }
 
             // Display the data type
-            System.Console.WriteLine($"\tData Type: {field.FieldType.DataType.ToString()}");
+            System.Console.WriteLine($"\tData Type: {field.FieldType.DataType}");
         }
     }
 }

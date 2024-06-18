@@ -1,20 +1,18 @@
-﻿using net.sf.mpxj;
-using net.sf.mpxj.MpxjUtilities;
-using net.sf.mpxj.reader;
-using Task = net.sf.mpxj.Task;
+﻿using MPXJ.Net;
+using Task = MPXJ.Net.Task;
 
 /// <summary>
 /// Illustrates retrieving predecessor and successor details from a project.
 /// </summary>
 public class PredecessorsAndSuccessors
 {
-    public void Execute()
+    public void Execute(string filename)
     {
-        ProjectFile file = new UniversalProjectReader().read("example.mpp");
+        ProjectFile file = new UniversalProjectReader().Read(filename);
 
         foreach (Task t in file.Tasks)
         {
-            foreach (Relation r in t.Predecessors.ToIEnumerable())
+            foreach (Relation r in t.Predecessors)
             {
                 System.Console.WriteLine("Task UniqueID: " + t.UniqueID + " Predcessor: " + r.TargetTask.UniqueID + " Type: " + r.Type);
             }
@@ -24,7 +22,7 @@ public class PredecessorsAndSuccessors
 
         foreach (Task t in file.Tasks)
         {
-            foreach (Relation r in t.Successors.ToIEnumerable())
+            foreach (Relation r in t.Successors)
             {
                 System.Console.WriteLine("Task UniqueID: " + t.UniqueID + " Successor: " + r.TargetTask.UniqueID + " Type: " + r.Type);
             }

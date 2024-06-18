@@ -1,16 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using net.sf.mpxj;
-using net.sf.mpxj.writer;
-using net.sf.mpxj.common;
-using net.sf.mpxj.MpxjUtilities;
+using System.IO;
+using MPXJ.Net;
 
 namespace MpxjSample
 {
     class MpxjCreate
     {
+        private static readonly Dictionary<string, FileFormat> FileFormatDictionary = new Dictionary<string, FileFormat>()
+        {
+            { "MPX", FileFormat.MPX },
+            { "XML", FileFormat.MSPDI },
+            { "PMXML", FileFormat.PMXML },
+            { "PLANNER", FileFormat.PLANNER },
+            { "JSON", FileFormat.JSON },
+            { "SDEF", FileFormat.SDEF },
+            { "XER", FileFormat.XER },
+        };
+
         static void Main(string[] args)
         {
 #if NETCOREAPP
@@ -44,22 +51,14 @@ namespace MpxjSample
             ProjectFile file = new ProjectFile();
 
             //
-            // Uncomment these lines to test the use of alternative
-            // delimiters and separators for MPX file output.
-            //
-            //file.setDelimiter(';');
-            //file.setDecimalSeparator(',');
-            //file.setThousandsSeparator('.');
-
-            //
             // Add a default calendar called "Standard"
             //
-            ProjectCalendar calendar = file.addDefaultBaseCalendar();
+            ProjectCalendar calendar = file.AddDefaultBaseCalendar();
 
             //
             // Add a holiday to the calendar to demonstrate calendar exceptions
-            //
-            calendar.addCalendarException(ParseLocalDate("2006-03-13"), ParseLocalDate("2006-03-13"));
+            //            
+            calendar.AddCalendarException(DateOnly.Parse("2006-03-13"), DateOnly.Parse("2006-03-13"));
 
             //
             // Retrieve the project properties and set the start date. Note Microsoft
@@ -69,7 +68,7 @@ namespace MpxjSample
             // today's date.
             //
             ProjectProperties properties = file.ProjectProperties;
-            properties.StartDate = ParseLocalDateTime("2003-01-01");
+            properties.StartDate = DateTime.Parse("2003-01-01 08:00");
 
             //
             // Set a couple more properties just for fun
@@ -80,32 +79,27 @@ namespace MpxjSample
             //
             // Add resources
             //
-            Resource resource1 = file.addResource();
+            Resource resource1 = file.AddResource();
             resource1.Name = "Resource1";
 
-            Resource resource2 = file.addResource();
+            Resource resource2 = file.AddResource();
             resource2.Name = "Resource2";
-
-            //
-            // This next line is not required, it is here simply to test the
-            // output file format when alternative separators and delimiters
-            // are used.
-            //
-            resource2.MaxUnits = NumberHelper.getDouble(50.0);
+            // This resource is only available 50% of the time
+            resource2.Availability.Add(new Availability(DateTimeHelper.StartDateNA, DateTimeHelper.EndDateNA, 50.0));
 
             //
             // Create a summary task
             //
-            Task task1 = file.addTask();
+            Task task1 = file.AddTask();
             task1.Name = "Summary Task";
 
             //
             // Create the first sub task
             //
-            Task task2 = task1.addTask();
+            Task task2 = task1.AddTask();
             task2.Name = "First Sub Task";
-            task2.Duration = Duration.getInstance(10.5, TimeUnit.DAYS);
-            task2.Start = ParseLocalDateTime("2003-01-01");
+            task2.Duration = Duration.GetInstance(10.5, TimeUnit.Days);
+            task2.Start = DateTime.Parse("2003-01-01 08:00");
 
             //
             // We'll set this task up as being 50% complete. If we have no resource
@@ -115,48 +109,48 @@ namespace MpxjSample
             // correct values in order for MS project to mark the task as complete
             // or partially complete.
             //
-            task2.PercentageComplete = NumberHelper.getDouble(50.0);
-            task2.ActualStart = ParseLocalDateTime("2003-01-01");
+            task2.PercentageComplete = 50.0;
+            task2.ActualStart = DateTime.Parse("2003-01-01 08:00");
 
             //
             // Create the second sub task
             //
-            Task task3 = task1.addTask();
+            Task task3 = task1.AddTask();
             task3.Name = "Second Sub Task";
-            task3.Start = ParseLocalDateTime("2003-01-11");
-            task3.Duration = Duration.getInstance(10, TimeUnit.DAYS);
+            task3.Start = DateTime.Parse("2003-01-11 08:00");
+            task3.Duration = Duration.GetInstance(10, TimeUnit.Days);
 
             //
             // Link these two tasks
-            //
-            task3.addPredecessor(task2, RelationType.FINISH_START, null);
+            //            
+            task3.AddPredecessor(new Relation.Builder(file).TargetTask(task2).Type(RelationType.FinishStart));
 
             //
             // Add a milestone
             //
-            Task milestone1 = task1.addTask();
+            Task milestone1 = task1.AddTask();
             milestone1.Name = "Milestone";
-            milestone1.Start = ParseLocalDateTime("2003-01-21");
-            milestone1.Duration = Duration.getInstance(0, TimeUnit.DAYS);
-            milestone1.addPredecessor(task3, RelationType.FINISH_START, null);
+            milestone1.Start = DateTime.Parse("2003-01-21 08:00");
+            milestone1.Duration = Duration.GetInstance(0, TimeUnit.Days);            
+            milestone1.AddPredecessor(new Relation.Builder(file).TargetTask(task2).Type(RelationType.FinishStart));
 
             //
             // This final task has a percent complete value, but no
             // resource assignments. This is an interesting case it it requires
             // special processing to generate the MSPDI file correctly.
             //
-            Task task4 = file.addTask();
+            Task task4 = file.AddTask();
             task4.Name = "Next Task";
-            task4.Duration = Duration.getInstance(8, TimeUnit.DAYS);
-            task4.Start = ParseLocalDateTime("2003-01-01");
-            task4.PercentageComplete = NumberHelper.getDouble(70.0);
-            task4.ActualStart = ParseLocalDateTime("2003-01-01");
+            task4.Duration = Duration.GetInstance(8, TimeUnit.Days);
+            task4.Start = DateTime.Parse("2003-01-01 08:00");
+            task4.PercentageComplete = 70.0;
+            task4.ActualStart = DateTime.Parse("2003-01-01 08:00");
 
             //
             // Assign resources to tasks
             //
-            ResourceAssignment assignment1 = task2.addResourceAssignment(resource1);
-            ResourceAssignment assignment2 = task3.addResourceAssignment(resource2);
+            ResourceAssignment assignment1 = task2.AddResourceAssignment(resource1);
+            ResourceAssignment assignment2 = task3.AddResourceAssignment(resource2);
 
             //
             // As the first task is partially complete, and we are adding
@@ -164,8 +158,8 @@ namespace MpxjSample
             // fields in the assignment to appropriate values, or MS Project
             // won't recognise the task as being complete or partially complete
             //
-            assignment1.Work = Duration.getInstance(80, TimeUnit.HOURS);
-            assignment1.ActualWork = Duration.getInstance(40, TimeUnit.HOURS);
+            assignment1.Work = Duration.GetInstance(80, TimeUnit.Hours);
+            assignment1.ActualWork = Duration.GetInstance(40, TimeUnit.Hours);
 
             //
             // If we were just generating an MPX file, we would already have enough
@@ -174,37 +168,37 @@ namespace MpxjSample
             // the remaining work attribute. The assignment start dates will normally
             // be the same as the task start dates.
             //
-            assignment1.RemainingWork = Duration.getInstance(40, TimeUnit.HOURS);
-            assignment2.RemainingWork = Duration.getInstance(80, TimeUnit.HOURS);
-            assignment1.Start = ParseLocalDateTime("2003-01-01");
-            assignment2.Start = ParseLocalDateTime("2003-01-11");
+            assignment1.RemainingWork = Duration.GetInstance(40, TimeUnit.Hours);
+            assignment2.RemainingWork = Duration.GetInstance(80, TimeUnit.Hours);
+            assignment1.Start = DateTime.Parse("2003-01-01 08:00");
+            assignment2.Start = DateTime.Parse("2003-01-11 08:00");
 
             //
             // Write a 100% complete task
             //
-            Task task5 = file.addTask();
+            Task task5 = file.AddTask();
             task5.Name = "Last Task";
-            task5.Duration = Duration.getInstance(3, TimeUnit.DAYS);
-            task5.Start = ParseLocalDateTime("2003-01-01");
-            task5.PercentageComplete = NumberHelper.getDouble(100.0);
-            task5.ActualStart = ParseLocalDateTime("2003-01-01");
+            task5.Duration = Duration.GetInstance(3, TimeUnit.Days);
+            task5.Start = DateTime.Parse("2003-01-01 08:00");
+            task5.PercentageComplete = 100.0;
+            task5.ActualStart = DateTime.Parse("2003-01-01 08:00");
 
             //
             // Write the file
             //
-            ProjectWriter writer = ProjectWriterUtility.getProjectWriter(filename);
-            writer.write(file, filename);
+            var extension = Path.GetExtension(filename);
+            if (extension == null || extension.Length == 0)
+            {
+                throw new ArgumentException("Filename has no extension");
+            }
 
-        }
+            extension = extension.Substring(1).ToUpper();
+            if (!FileFormatDictionary.TryGetValue(extension, out var format))
+            {
+                throw new ArgumentException($"Unsupported file extension: {extension}");
+            }
 
-        private java.time.LocalDateTime ParseLocalDateTime(string date)
-        {
-            return DateTime.Parse(date).ToJavaLocalDateTime();
-        }
-
-        private java.time.LocalDate ParseLocalDate(string date)
-        {
-            return DateTime.Parse(date).ToJavaLocalDate();
+            new UniversalProjectWriter(format).Write(file, filename);
         }
     }
 }

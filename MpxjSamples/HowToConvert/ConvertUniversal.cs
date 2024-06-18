@@ -1,16 +1,10 @@
-﻿using net.sf.mpxj.reader;
-using net.sf.mpxj.writer;
-
-namespace MpxjSamples.HowToConvert;
+﻿using MPXJ.Net;
 
 public class ConvertUniversal
 {
-	public void Convert(string inputFile, string outputFile)
-	{
-        var reader = new UniversalProjectReader();
-        var projectFile = reader.read(inputFile);
-
-        var writer = ProjectWriterUtility.getProjectWriter(outputFile);
-        writer.write(projectFile, outputFile);
+    public void Convert(string inputFile, FileFormat format, string outputFile)
+    {
+        var projectFile = new UniversalProjectReader().Read(inputFile);
+        new UniversalProjectWriter(format).Write(projectFile, outputFile);
     }
 }

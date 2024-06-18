@@ -1,15 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using net.sf.mpxj;
-using net.sf.mpxj.reader;
-using net.sf.mpxj.writer;
+using System.IO;
+using MPXJ.Net;
 
 namespace MpxjSample
 {
     class MpxjConvert
     {
+        private static readonly Dictionary<string, FileFormat> FileFormatDictionary = new Dictionary<string, FileFormat>()
+        {
+            { "MPX", FileFormat.MPX },
+            { "XML", FileFormat.MSPDI },
+            { "PMXML", FileFormat.PMXML },
+            { "PLANNER", FileFormat.PLANNER },
+            { "JSON", FileFormat.JSON },
+            { "SDEF", FileFormat.SDEF },
+            { "XER", FileFormat.XER },
+        };
+
+
         static void Main(string[] args)
         {
 #if NETCOREAPP
@@ -37,15 +46,26 @@ namespace MpxjSample
         public void Process(string inputFile, string outputFile)
         {
             Console.Out.WriteLine("Reading input file started.");
-            DateTime start = DateTime.Now;
-            ProjectFile projectFile = new UniversalProjectReader().read(inputFile);
-            TimeSpan elapsed = DateTime.Now - start;
+            var start = DateTime.Now;
+            var projectFile = new UniversalProjectReader().Read(inputFile);
+            var elapsed = DateTime.Now - start;
             Console.Out.WriteLine("Reading input file completed in " + elapsed.TotalMilliseconds + "ms.");
+
+            var extension = Path.GetExtension(outputFile);
+            if (extension == null || extension.Length == 0)
+            {
+                throw new ArgumentException("Filename has no extension");
+            }
+
+            extension = extension.Substring(1).ToUpper();
+            if (!FileFormatDictionary.TryGetValue(extension, out var format))
+            {
+                throw new ArgumentException($"Unsupported file extension: {extension}");
+            }
 
             Console.Out.WriteLine("Writing output file started.");
             start = DateTime.Now;
-            ProjectWriter writer = ProjectWriterUtility.getProjectWriter(outputFile);
-            writer.write(projectFile, outputFile);
+            new UniversalProjectWriter(format).Write(projectFile, outputFile);
             elapsed = DateTime.Now - start;
             Console.Out.WriteLine("Writing output completed in " + elapsed.TotalMilliseconds + "ms.");
         }

@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="MPXJ.Net" Version="13.0.0" />
+		<MavenReference Include="com.microsoft.sqlserver:mssql-jdbc" Version="12.6.2.jre8" />
+	</ItemGroup>
+</Project>

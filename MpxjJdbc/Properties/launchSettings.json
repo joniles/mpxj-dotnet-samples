@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "MpxjJdbc": {
+      "commandName": "Project",
+      "commandLineArgs": "jdbc:sqlserver://jons-imac;user=privuser;password=privuser;databaseName=PMDB;encrypt=false 1234 project1.xml"
+    }
+  }
+}

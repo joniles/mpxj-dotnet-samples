@@ -1,21 +1,20 @@
-﻿using net.sf.mpxj;
-using net.sf.mpxj.reader;
+﻿using MPXJ.Net;
 
 public class ReadProjectProperties
 {
-    public void Execute()
+    public void Execute(string filename)
     {
         //
         // Read a schedule from a sample file.
         //
-        ProjectFile file = new UniversalProjectReader().read("example.mpp");
+        ProjectFile file = new UniversalProjectReader().Read(filename);
 
 
         //
         // Iterate through allproject property fields
         //
         var projectProperties = file.ProjectProperties;
-        foreach (ProjectField field in ProjectField.values())
+        foreach (ProjectField field in ProjectField.Values)
         {
             //
             // Retrieve the value for the current field, ignore it if it is null

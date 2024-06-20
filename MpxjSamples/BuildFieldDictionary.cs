@@ -1,5 +1,4 @@
-﻿using net.sf.mpxj;
-using System.Collections.Immutable;
+﻿using MPXJ.Net;
 
 public class BuildFieldDictionary
 {
@@ -8,24 +7,24 @@ public class BuildFieldDictionary
         //
         // Create a dictionary allowing us to look up field types by name
         //
-        var dictionary = ImmutableArray.Create(TaskField.values()).ToDictionary<string, TaskField>(t => t.name());
+        var dictionary = TaskField.Values.ToDictionary(t => t.ObjectName);
 
         //
         // Test the lookup
         //
         var field = dictionary["TEXT1"];
-        System.Console.WriteLine($"Field name={field.name()} User-visible name={field.Name} Data type={field.DataType} Parent type={field.FieldTypeClass}");
+        System.Console.WriteLine($"Field name={field.ObjectName} User-visible name={field.FieldName} Data type={field.DataType} Parent type={field.FieldTypeClass}");
 
         //
         // Alternative approach using simple iteration
         //
         dictionary = new Dictionary<string, TaskField>();
-        foreach(TaskField t in TaskField.values())
+        foreach(TaskField t in TaskField.Values)
         {
-            dictionary.Add(t.name(), t);
+            dictionary.Add(t.ObjectName, t);
         }
 
         field = dictionary["TEXT1"];
-        System.Console.WriteLine($"Field name={field.name()} User-visible name={field.Name} Data type={field.DataType} Parent type={field.FieldTypeClass}");
+        System.Console.WriteLine($"Field name={field.ObjectName} User-visible name={field.FieldName} Data type={field.DataType} Parent type={field.FieldTypeClass}");
     }
 }

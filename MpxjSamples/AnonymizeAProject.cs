@@ -1,9 +1,4 @@
-﻿using net.sf.mpxj;
-using net.sf.mpxj.reader;
-using Task = net.sf.mpxj.Task;
-using net.sf.mpxj.MpxjUtilities;
-using net.sf.mpxj.utility;
-using net.sf.mpxj.utility.clean;
+﻿using net.sf.mpxj.utility;
 
 /// <summary>
 /// Illustrates how to anonymize a project by replacing the text it contains with nonsense.
@@ -12,8 +7,9 @@ using net.sf.mpxj.utility.clean;
 /// </summary>
 public class AnonymizeAProject
 {
-	public void Execute()
+	public void Execute(string filename)
 	{
-        new ProjectCleanUtility().Process("sensitive-file.mpp", "clean-file.mpp");
+        var name = Path.GetFileName(filename);
+        new ProjectCleanUtility().process(filename, $"clean-{name}");
     }
 }

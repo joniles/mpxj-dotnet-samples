@@ -7,6 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="net.sf.mpxj-for-csharp" Version="12.10.3" />
+    <PackageReference Include="MPXJ.Net" Version="13.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="_TestData\Sample1.mpp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 </Project>

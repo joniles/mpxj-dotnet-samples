@@ -5,12 +5,8 @@
     <TargetFrameworks>net45;netcoreapp3.1</TargetFrameworks>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <OutputPath>..\bin</OutputPath>
-  </PropertyGroup>
-
   <ItemGroup>
-    <PackageReference Include="net.sf.mpxj-test" Version="12.10.3" />
+    <PackageReference Include="net.sf.mpxj-test" Version="13.0.0" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net45'">

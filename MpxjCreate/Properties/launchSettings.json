@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "MpxjCreate": {
+      "commandName": "Project",
+      "commandLineArgs": "c:\\users\\jon\\desktop\\test.xml"
+    }
+  }
+}

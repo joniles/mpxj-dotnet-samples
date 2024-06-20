@@ -1,6 +1,4 @@
-﻿using net.sf.mpxj;
-using net.sf.mpxj.MpxjUtilities;
-using net.sf.mpxj.reader;
+﻿using MPXJ.Net;
 
 /// <summary>
 /// Demonstrate how a calendar's exceptions can be separated out into the
@@ -8,32 +6,32 @@ using net.sf.mpxj.reader;
 /// </summary>
 public class ProjectCalendarExceptionsToDates
 {
-    public void Execute()
+    public void Execute(string filename)
     {
-        ProjectFile file = new UniversalProjectReader().read("example.mpp");
+        var file = new UniversalProjectReader().Read(filename);
         foreach (ProjectCalendar calendar in file.Calendars)
         {
-            processCalendar(calendar);
+            ProcessCalendar(calendar);
         }
     }
 
-    private void processCalendar(ProjectCalendar calendar)
+    private void ProcessCalendar(ProjectCalendar calendar)
     {        
-        if (calendar.CalendarExceptions.isEmpty())
+        if (calendar.CalendarExceptions.Count == 0)
         {
             System.Console.WriteLine($"Calendar {calendar.Name} has no exceptions");
         }
         else
         {
             System.Console.WriteLine($"Calendar {calendar.Name} exceptions:");
-            foreach(ProjectCalendarException exception in calendar.CalendarExceptions.ToIEnumerable())
+            foreach(ProjectCalendarException exception in calendar.CalendarExceptions)
             {
-                processCalendarException(exception);
+                ProcessCalendarException(exception);
             }
         }
     }
 
-    private void processCalendarException(ProjectCalendarException exception)
+    private void ProcessCalendarException(ProjectCalendarException exception)
     {
         System.Console.WriteLine($"Exception Name: {exception.Name}");
 
@@ -49,17 +47,19 @@ public class ProjectCalendarExceptionsToDates
         // a working day, or change a working day's hours.
         var days = new List<string>();
 
-        foreach (ProjectCalendarException expandedException in exception.ExpandedExceptions.ToIEnumerable())
+        foreach (ProjectCalendarException expandedException in exception.ExpandedExceptions)
         {
-            var fromDate = expandedException.FromDate.ToDateTime();
-            var toDate = expandedException.ToDate.ToDateTime();
-            while (fromDate < toDate)
+            var fromDate = expandedException.FromDate ?? throw new ArgumentException();
+            var toDate = expandedException.ToDate ?? throw new ArgumentException();
+
+            while (fromDate <= toDate)
             {
-                days.Add(fromDate.ToString("MM/dd/yyyy"));
+                days.Add(fromDate.ToString("yyyy-MM-dd"));
                 fromDate = fromDate.AddDays(1);
             }
         }
 
+        
         System.Console.WriteLine($"\tDays: {String.Join(", ", days)}");
     }
 }

@@ -1,7 +1,5 @@
-﻿using net.sf.mpxj;
-using net.sf.mpxj.reader;
-using Task = net.sf.mpxj.Task;
-using net.sf.mpxj.MpxjUtilities;
+﻿using MPXJ.Net;
+using Task = MPXJ.Net.Task;
 
 public class ReadTaskFields
 {
@@ -11,7 +9,7 @@ public class ReadTaskFields
         // Loop through the values in the TaskField enum
         // and write them to the console.
         //
-        foreach (TaskField field in TaskField.values())
+        foreach (TaskField field in TaskField.Values)
         {
             Console.WriteLine(field.ToString());
         }
@@ -21,7 +19,7 @@ public class ReadTaskFields
         //
         // Read a schedule from a sample file.
         //
-        ProjectFile file = new UniversalProjectReader().read("example.mpp");
+        ProjectFile file = new UniversalProjectReader().Read("example.mpp");
 
         //
         // Let's take a simple approach to examining all of the non-null attributes
@@ -37,7 +35,7 @@ public class ReadTaskFields
             //
             // Iterate through all possible fields
             //
-            foreach (TaskField field in TaskField.values())
+            foreach (TaskField field in TaskField.Values)
             {
                 //
                 // Retrieve the value for the current field, ignore it if it is null
@@ -73,7 +71,7 @@ public class ReadTaskFields
             //
             // Iterate through all possible fields
             //
-            foreach (TaskField field in TaskField.values())
+            foreach (TaskField field in TaskField.Values)
             {
                 //
                 // Retrieve the value for the current field, ignore it if it is null
@@ -88,23 +86,18 @@ public class ReadTaskFields
                 // A slightly more refined approach would be to look at the type
                 // of the value we've been given and work with the raw value.
                 //
-                switch (field.DataType.ordinal())
+                switch (field.DataType)
                 {
                     // This nasty syntax is unfortunately required to
                     // ensure that the original Java enum values can be used in
                     // dot net code.
-                    case (int)DataType.__Enum.DATE:
+                    case DataType.Date:
                         {
                             // Now we know we are working with a DATE, we
                             // can manipulate the "raw" value directly, rather than
                             // relying on the ToString method. In this example we'll
                             // create a variable of the correct type:
-                            java.time.LocalDateTime dateValue = (java.time.LocalDateTime)value;
-
-                            // Now we can use one of the extension methods provided
-                            // by MPXJ to convert to a dot net type, at which point
-                            // it becomes much easier to work with.
-                            DateTime dateTimeValue = dateValue.ToDateTime();
+                            var dateTimeValue = value as DateTime?;
                             System.Console.WriteLine("\t" + field.ToString()
                                 + ":\t" + dateTimeValue.ToString());
                             break;
@@ -114,24 +107,23 @@ public class ReadTaskFields
                     // we can cast to the original Java type, and from there we can
                     // retrieve a dot net double, making it much easier to work with.
                     // In this case we're formatting the value as a currency.
-                    case (int)DataType.__Enum.CURRENCY:
+                    case DataType.Currency:
                         {
-                            double numberValue = ((java.lang.Number)value).doubleValue();
+                            var numberValue = value as double?;
                             System.Console.WriteLine("\t" + field.ToString()
-                                + ":\t" + numberValue.ToString("C2"));
+                                + ":\t" + numberValue?.ToString("C2"));
                             break;
                         }
 
                     // Last example: the STRING data type is alreday a dot net string
                     // so we can use that directly.
-                    case (int)DataType.__Enum.STRING:
+                    case DataType.String:
                         {
-                            string stringValue = (string)value;
+                            var stringValue = value as string;
                             System.Console.WriteLine("\t" + field.ToString()
                                 + ":\t" + stringValue);
                             break;
                         }
-
                 }
             }
         }
@@ -152,7 +144,7 @@ public class ReadTaskFields
             Console.WriteLine(task.ID + ":\t" + task.Name);
 
             // Iterate through all of the populate fields
-            foreach (FieldType field in populatedFields.ToIEnumerable())
+            foreach (var field in populatedFields)
             {
                 var value = task.GetCachedValue(field);
 

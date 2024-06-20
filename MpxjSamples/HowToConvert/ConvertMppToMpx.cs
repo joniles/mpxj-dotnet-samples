@@ -1,16 +1,13 @@
-﻿using net.sf.mpxj.mpp;
-using net.sf.mpxj.mpx;
-
-namespace MpxjSamples.HowToConvert;
+﻿using MPXJ.Net;
 
 public class ConvertMppToMpx
 {
     public void Convert(string inputFile, string outputFile)
     {
         var reader = new MPPReader();
-        var projectFile = reader.read(inputFile);
+        var projectFile = reader.Read(inputFile);
 
         var writer = new MPXWriter();
-        writer.write(projectFile, outputFile);
+        writer.Write(projectFile, outputFile);
     }
 }

@@ -1,10 +1,4 @@
-Imports System.Collections.Generic
-Imports System.Linq
-Imports System.Text
-Imports net.sf.mpxj
-Imports net.sf.mpxj.reader
-Imports net.sf.mpxj.MpxjUtilities
-
+Imports MPXJ.Net
 
 Module MpxjQuery
 
@@ -32,44 +26,42 @@ Module MpxjQuery
     ''' </summary>
     ''' <param name="filename">name of the project file</param>
     Private Sub query(filename As String)
-        Dim reader As ProjectReader = ProjectReaderUtility.getProjectReader(filename)
-        Dim mpx As ProjectFile = reader.read(filename)
+        Dim reader As UniversalProjectReader = New UniversalProjectReader()
+        Dim file As ProjectFile = reader.Read(filename)
 
-        System.Console.WriteLine("MPP file type: " & mpx.ProjectProperties.MppFileType.ToNullableInt)
+        ListProjectHeader(file)
 
-        listProjectHeader(mpx)
+        ListResources(file)
 
-        listResources(mpx)
+        ListTasks(file)
 
-        listTasks(mpx)
+        ListAssignments(file)
 
-        listAssignments(mpx)
+        ListAssignmentsByTask(file)
 
-        listAssignmentsByTask(mpx)
+        ListAssignmentsByResource(file)
 
-        listAssignmentsByResource(mpx)
+        ListHierarchy(file)
 
-        listHierarchy(mpx)
+        ListTaskNotes(file)
 
-        listTaskNotes(mpx)
+        ListResourceNotes(file)
 
-        listResourceNotes(mpx)
+        ListRelationships(file)
 
-        listRelationships(mpx)
+        ListSlack(file)
 
-        listSlack(mpx)
-
-        listCalendars(mpx)
+        ListCalendars(file)
     End Sub
 
     ''' <summary>
     ''' Reads basic summary details from the project header.
     ''' </summary>
     ''' <param name="file">project file</param>
-    Private Sub listProjectHeader(file As ProjectFile)
+    Private Sub ListProjectHeader(file As ProjectFile)
         Dim header As ProjectProperties = file.ProjectProperties
-        Dim formattedStartDate As String = If(header.StartDate Is Nothing, "(none)", header.StartDate.ToDateTime().ToString())
-        Dim formattedFinishDate As String = If(header.FinishDate Is Nothing, "(none)", header.FinishDate.ToDateTime().ToString())
+        Dim formattedStartDate As String = If(header.StartDate Is Nothing, "(none)", header.StartDate.ToString())
+        Dim formattedFinishDate As String = If(header.FinishDate Is Nothing, "(none)", header.FinishDate.ToString())
 
         System.Console.WriteLine("Project Header: StartDate=" & formattedStartDate & " FinishDate=" & formattedFinishDate)
         System.Console.WriteLine()
@@ -79,8 +71,8 @@ Module MpxjQuery
     ''' This method lists all resources defined in the file.
     ''' </summary>
     ''' <param name="file">project file</param>
-    Private Sub listResources(file As ProjectFile)
-        For Each resource As Resource In file.Resources.ToIEnumerable()
+    Private Sub ListResources(file As ProjectFile)
+        For Each resource As Resource In file.Resources
             System.Console.WriteLine("Resource: " & resource.Name & " (Unique ID=" & ToString(resource.UniqueID) & ") Start=" & ToString(resource.Start) & " Finish=" & ToString(resource.Finish))
         Next
         System.Console.WriteLine()
@@ -90,8 +82,8 @@ Module MpxjQuery
     ''' This method lists all tasks defined in the file.
     ''' </summary>
     ''' <param name="file">project file</param>
-    Private Sub listTasks(file As ProjectFile)
-        For Each task As Task In file.Tasks.ToIEnumerable()
+    Private Sub ListTasks(file As ProjectFile)
+        For Each task As Task In file.Tasks
             Dim startDate As String
             Dim finishDate As String
             Dim duration As String
@@ -99,21 +91,21 @@ Module MpxjQuery
 
             Dim [date] = task.Start
             If [date] IsNot Nothing Then
-                startDate = [date].ToDateTime().ToString()
+                startDate = [date].ToString()
             Else
                 startDate = "(no date supplied)"
             End If
 
             [date] = task.Finish
             If [date] IsNot Nothing Then
-                finishDate = [date].ToDateTime().ToString()
+                finishDate = [date].ToString()
             Else
                 finishDate = "(no date supplied)"
             End If
 
             dur = task.Duration
             If dur IsNot Nothing Then
-                duration = dur.toString()
+                duration = dur.ToString()
             Else
                 duration = "(no duration supplied)"
             End If
@@ -122,13 +114,13 @@ Module MpxjQuery
             If baselineDuration Is Nothing Then
                 dur = task.BaselineDuration
                 If dur IsNot Nothing Then
-                    baselineDuration = dur.toString()
+                    baselineDuration = dur.ToString()
                 Else
                     baselineDuration = "(no duration supplied)"
                 End If
             End If
 
-            System.Console.WriteLine("Task: " & task.Name & " ID=" & ToString(task.Id) & " Unique ID=" & ToString(task.UniqueID) & " (Start Date=" & startDate & " Finish Date=" & finishDate & " Duration=" & duration & " Baseline Duration=" & baselineDuration & " Outline Level=" & ToString(task.OutlineLevel) & " Outline Number=" & task.OutlineNumber & " Recurring=" & task.Recurring & ")")
+            System.Console.WriteLine("Task: " & task.Name & " ID=" & ToString(task.ID) & " Unique ID=" & ToString(task.UniqueID) & " (Start Date=" & startDate & " Finish Date=" & finishDate & " Duration=" & duration & " Baseline Duration=" & baselineDuration & " Outline Level=" & ToString(task.OutlineLevel) & " Outline Number=" & task.OutlineNumber & " Recurring=" & task.Recurring & ")")
         Next
         System.Console.WriteLine()
     End Sub
@@ -138,10 +130,10 @@ Module MpxjQuery
     ''' reflecting the parent-child relationships between them.
     ''' </summary>
     ''' <param name="file">project file</param>
-    Private Sub listHierarchy(file As ProjectFile)
-        For Each task As Task In file.ChildTasks.ToIEnumerable()
+    Private Sub ListHierarchy(file As ProjectFile)
+        For Each task As Task In file.ChildTasks
             System.Console.WriteLine("Task: " & task.Name)
-            listHierarchy(task, " ")
+            ListHierarchy(task, " ")
         Next
 
         System.Console.WriteLine()
@@ -152,10 +144,10 @@ Module MpxjQuery
     ''' </summary>
     ''' <param name="task">Task instance</param>
     ''' <param name="indent">print indent</param>
-    Private Sub listHierarchy(task As Task, indent As String)
-        For Each child As Task In task.ChildTasks.ToIEnumerable()
+    Private Sub ListHierarchy(task As Task, indent As String)
+        For Each child As Task In task.ChildTasks
             System.Console.WriteLine(indent & "Task: " & child.Name)
-            listHierarchy(child, indent & " ")
+            ListHierarchy(child, indent & " ")
         Next
     End Sub
 
@@ -163,13 +155,13 @@ Module MpxjQuery
     ''' This method lists all resource assignments defined in the file.
     ''' </summary>
     ''' <param name="file">project file</param>
-    Private Sub listAssignments(file As ProjectFile)
+    Private Sub ListAssignments(file As ProjectFile)
         Dim task As Task
         Dim resource As Resource
         Dim taskName As String
         Dim resourceName As String
 
-        For Each assignment As ResourceAssignment In file.ResourceAssignments.ToIEnumerable()
+        For Each assignment As ResourceAssignment In file.ResourceAssignments
             task = assignment.Task
             If task Is Nothing Then
                 taskName = "(null task)"
@@ -196,11 +188,11 @@ Module MpxjQuery
     ''' assignments in the file, we extract the assignments on a task-by-task basis.
     ''' </summary>
     ''' <param name="file">project file</param>
-    Private Sub listAssignmentsByTask(file As ProjectFile)
-        For Each task As Task In file.Tasks.ToIEnumerable()
+    Private Sub ListAssignmentsByTask(file As ProjectFile)
+        For Each task As Task In file.Tasks
             System.Console.WriteLine("Assignments for task " & task.Name & ":")
 
-            For Each assignment As ResourceAssignment In task.ResourceAssignments.ToIEnumerable()
+            For Each assignment As ResourceAssignment In task.ResourceAssignments
                 Dim resource As Resource = assignment.Resource
                 Dim resourceName As String
 
@@ -223,11 +215,11 @@ Module MpxjQuery
     ''' assignments in the file, we extract the assignments on a resource-by-resource basis.
     ''' </summary>
     ''' <param name="file">project file</param>
-    Private Sub listAssignmentsByResource(file As ProjectFile)
-        For Each resource As Resource In file.Resources.ToIEnumerable()
+    Private Sub ListAssignmentsByResource(file As ProjectFile)
+        For Each resource As Resource In file.Resources
             System.Console.WriteLine("Assignments for resource " & resource.Name & ":")
 
-            For Each assignment As ResourceAssignment In resource.TaskAssignments.ToIEnumerable()
+            For Each assignment As ResourceAssignment In resource.TaskAssignments
                 Dim task As Task = assignment.Task
                 System.Console.WriteLine("   " & task.Name)
             Next
@@ -240,8 +232,8 @@ Module MpxjQuery
     ''' This method lists any notes attached to tasks..
     ''' </summary>
     ''' <param name="file">project file</param>
-    Private Sub listTaskNotes(file As ProjectFile)
-        For Each task As Task In file.Tasks.ToIEnumerable()
+    Private Sub ListTaskNotes(file As ProjectFile)
+        For Each task As Task In file.Tasks
             Dim notes As String = task.Notes
 
             If notes IsNot Nothing AndAlso notes.Length <> 0 Then
@@ -256,8 +248,8 @@ Module MpxjQuery
     ''' This method lists any notes attached to resources.
     ''' </summary>
     ''' <param name="file">project file</param>
-    Private Sub listResourceNotes(file As ProjectFile)
-        For Each resource As Resource In file.Resources.ToIEnumerable()
+    Private Sub ListResourceNotes(file As ProjectFile)
+        For Each resource As Resource In file.Resources
             Dim notes As String = resource.Notes
 
             If notes IsNot Nothing AndAlso notes.Length <> 0 Then
@@ -272,16 +264,16 @@ Module MpxjQuery
     ''' This method lists task predecessor and successor relationships.
     ''' </summary>
     ''' <param name="file">project file</param>
-    Private Sub listRelationships(file As ProjectFile)
-        For Each task As Task In file.Tasks.ToIEnumerable()
-            System.Console.Write(task.Id)
+    Private Sub ListRelationships(file As ProjectFile)
+        For Each task As Task In file.Tasks
+            System.Console.Write(task.ID)
             System.Console.Write(ControlChars.Tab)
             System.Console.Write(task.Name)
             System.Console.Write(ControlChars.Tab)
 
-            dumpRelationList(task.Predecessors)
+            DumpRelationList(task.Predecessors)
             System.Console.Write(ControlChars.Tab)
-            dumpRelationList(task.Successors)
+            DumpRelationList(task.Successors)
             System.Console.WriteLine()
         Next
     End Sub
@@ -291,33 +283,37 @@ Module MpxjQuery
     ''' easily be compared with the tabular data in MS Project.
     ''' </summary>
     ''' <param name="relations">project file</param>
-    Private Sub dumpRelationList(relations As java.util.List)
-        If relations IsNot Nothing AndAlso relations.isEmpty() = False Then
-            If relations.size() > 1 Then
-                System.Console.Write(""""c)
-            End If
-            Dim first As Boolean = True
-            For Each relation As Relation In relations.ToIEnumerable()
-                If Not first Then
-                    System.Console.Write(","c)
-                End If
-                first = False
-                System.Console.Write(relation.TargetTask.ID)
-                Dim lag As Duration = relation.Lag
-                If Not relation.GetType().Equals(RelationType.FINISH_START) OrElse lag.Duration <> 0 Then
-                    System.Console.Write(relation.[GetType]())
-                End If
+    Private Sub DumpRelationList(relations As IList(Of Relation))
+        If relations Is Nothing Or relations.Count = 0 Then
+            Return
+        End If
 
-                If lag.Duration <> 0 Then
-                    If lag.Duration > 0 Then
-                        System.Console.Write("+")
-                    End If
-                    System.Console.Write(lag)
-                End If
-            Next
-            If relations.size() > 1 Then
-                System.Console.Write(""""c)
+        If relations.Count > 1 Then
+            System.Console.Write(""""c)
+        End If
+
+        Dim first As Boolean = True
+        For Each relation As Relation In relations
+            If Not first Then
+                System.Console.Write(","c)
             End If
+            first = False
+            System.Console.Write(relation.TargetTask.ID)
+            Dim lag As Duration = relation.Lag
+            If Not relation.GetType().Equals(RelationType.FinishStart) OrElse lag.DurationValue <> 0 Then
+                System.Console.Write(relation.[GetType]())
+            End If
+
+            If lag.DurationValue <> 0 Then
+                If lag.DurationValue > 0 Then
+                    System.Console.Write("+")
+                End If
+                System.Console.Write(lag)
+            End If
+        Next
+
+        If relations.Count > 1 Then
+            System.Console.Write(""""c)
         End If
     End Sub
 
@@ -325,8 +321,8 @@ Module MpxjQuery
     ''' List the slack values for each task.
     ''' </summary>
     ''' <param name="file">project file</param>
-    Private Sub listSlack(file As ProjectFile)
-        For Each task As Task In file.Tasks.ToIEnumerable()
+    Private Sub ListSlack(file As ProjectFile)
+        For Each task As Task In file.Tasks
             System.Console.WriteLine(task.Name & " Total Slack=" & ToString(task.TotalSlack) & " Start Slack=" & ToString(task.StartSlack) & " Finish Slack=" & ToString(task.FinishSlack))
         Next
     End Sub
@@ -335,24 +331,24 @@ Module MpxjQuery
     ''' List details of all calendars in the file.
     ''' </summary>
     ''' <param name="file">project file</param>
-    Private Sub listCalendars(file As ProjectFile)
-        For Each cal As ProjectCalendar In file.Calendars.ToIEnumerable()
-            System.Console.WriteLine(cal.toString())
+    Private Sub ListCalendars(file As ProjectFile)
+        For Each cal As ProjectCalendar In file.Calendars
+            System.Console.WriteLine(cal.ToString())
         Next
     End Sub
 
     ''' <summary>
     ''' Convenience method to handle null values
     ''' </summary>
-    ''' <param name="javaObject"></param>
+    ''' <param name="value"></param>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Private Function ToString(javaObject As java.lang.Integer)
+    Private Function ToString(value As Integer?)
         Dim result As String
-        If javaObject Is Nothing Then
+        If value Is Nothing Then
             result = "null"
         Else
-            result = javaObject.toString()
+            result = value.ToString()
         End If
         Return result
     End Function
@@ -360,15 +356,15 @@ Module MpxjQuery
     ''' <summary>
     ''' Convenience method to handle null values
     ''' </summary>
-    ''' <param name="javaObject"></param>
+    ''' <param name="value"></param>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Private Function ToString(javaObject As java.time.LocalDateTime)
+    Private Function ToString(value As Date?)
         Dim result As String
-        If javaObject Is Nothing Then
+        If value Is Nothing Then
             result = "null"
         Else
-            result = javaObject.toString()
+            result = value.ToString()
         End If
         Return result
     End Function
@@ -376,15 +372,15 @@ Module MpxjQuery
     ''' <summary>
     ''' Convenience method to handle null values
     ''' </summary>
-    ''' <param name="javaObject"></param>
+    ''' <param name="value"></param>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Private Function ToString(javaObject As Net.sf.mpxj.Duration)
+    Private Function ToString(value As Duration)
         Dim result As String
-        If javaObject Is Nothing Then
+        If value Is Nothing Then
             result = "null"
         Else
-            result = javaObject.toString()
+            result = value.ToString()
         End If
         Return result
     End Function

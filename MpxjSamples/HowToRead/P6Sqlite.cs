@@ -1,0 +1,27 @@
+﻿using MPXJ.Net;
+
+public class P6Sqlite
+{
+    public void Read()
+    {
+        var reader = new PrimaveraDatabaseFileReader();
+
+        //
+        // Retrieve a list of the projects available in the database
+        //
+        var file = "PPMDBSQLite.db";
+        var projects = reader.ListProjects(file);
+
+        //
+        // At this point you'll select the project
+        // you want to work with.
+        //
+
+        //
+        // Now open the selected project using its ID
+        //
+        int selectedProjectID = 1;
+        reader.ProjectID = selectedProjectID;
+        var projectFile = reader.Read(file);
+    }
+}

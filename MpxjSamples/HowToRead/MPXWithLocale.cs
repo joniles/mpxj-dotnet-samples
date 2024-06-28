@@ -1,6 +1,8 @@
 ﻿using System.Globalization;
 using MPXJ.Net;
 
+namespace MPXJ.Samples.HowToRead;
+
 public class MPXWithLocale
 {
     public void Read()

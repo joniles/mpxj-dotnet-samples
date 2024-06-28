@@ -1,5 +1,7 @@
 ﻿using MPXJ.Net;
 
+namespace MPXJ.Samples.HowToRead;
+
 public class GanttProject
 {
     public void Read()

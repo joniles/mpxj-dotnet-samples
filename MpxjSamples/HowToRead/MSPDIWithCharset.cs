@@ -1,6 +1,8 @@
 ﻿using System.Text;
 using MPXJ.Net;
 
+namespace MPXJ.Samples.HowToRead;
+
 public class MSPDIWithLocale
 {
     public void Read()

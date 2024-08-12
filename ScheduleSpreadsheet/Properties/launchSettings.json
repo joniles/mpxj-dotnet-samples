@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "ScheduleSpreadsheet": {
+      "commandName": "Project",
+      "commandLineArgs": "c:\\users\\jon\\desktop\\three-tasks.mpp \\\\VBOXSVR\\Downloads\\test.xlsx"
+    }
+  }
+}

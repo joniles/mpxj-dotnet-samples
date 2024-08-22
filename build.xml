@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+
+<project name="mpxj-dotnet-samples" default="build" basedir=".">
+	<property environment="env"/>
+	<property name="mpxj.version" value="13.3.0" />
+
+	<target name="update-version-numbers" description="Ensure that version numbers in the code are up-to-date">
+		<replaceregexp
+		       match='Include="MPXJ\.Net" Version=".+"'
+		       replace='Include="MPXJ.Net" Version="${mpxj.version}"'
+		       byline="true">
+			<fileset dir="${basedir}" defaultexcludes="false">
+				<include name="**/*.csproj" />
+				<include name="**/*.vbproj" />
+			</fileset>
+		</replaceregexp>
+
+		<replaceregexp
+		       match='Include="net\.sf\.mpxj:mpxj-tests" Version=".+"'
+		       replace='Include="net.sf.mpxj:mpxj-tests" Version="${mpxj.version}"'
+		       byline="true">
+			<fileset dir="${basedir}" defaultexcludes="false">
+				<include name="**/*.csproj" />
+			</fileset>
+		</replaceregexp>
+
+		<replaceregexp
+		       match='Include="net.sf.mpxj-test" Version=".+"'
+		       replace='Include="net.sf.mpxj-test" Version="${mpxj.version}"'
+		       byline="true">
+			<fileset dir="${basedir}" defaultexcludes="false">
+				<include name="**/*.csproj" />
+			</fileset>
+		</replaceregexp>
+	</target>
+
+	<target name="clean">
+		<delete includeemptydirs="true">
+			<fileset dir="${basedir}" defaultexcludes="false">
+				<include name="**/bin/**" />
+				<include name="**/obj/**" />
+			</fileset>
+		</delete>
+		<exec executable="dotnet" dir="${basedir}" failonerror="true">
+			<arg line="clean MPXJSamples.sln" />
+		</exec>
+	</target>
+
+	<target name="build" depends="clean, update-version-numbers">
+		<exec executable="dotnet" dir="${basedir}" failonerror="true">
+			<arg line="build --configuration Release MPXJSamples.sln" />
+		</exec>
+	</target>
+
+	<target name="test" depends="build">
+		<echo message="MPXJ Legacy net45"/>
+		<exec executable="${basedir}\MpxjTest.Legacy\bin\Release\net45\MpxjTest.Legacy.exe" failonerror="true">
+			<arg line='c:\java\mpxj\junit\data "${env.MPXJ_PRIVATE}\data" "${env.MPXJ_PRIVATE}\baseline"'/>
+		</exec>
+
+		<echo message="MPXJ Legacy netcoreapp3.1"/>
+		<exec executable="${basedir}\MpxjTest.Legacy\bin\Release\netcoreapp3.1\MpxjTest.Legacy.exe" failonerror="true">
+			<arg line='c:\java\mpxj\junit\data "${env.MPXJ_PRIVATE}\data" "${env.MPXJ_PRIVATE}\baseline"'/>
+		</exec>
+
+		<echo message="MPXJ Current net472"/>
+		<exec executable="${basedir}\MpxjTest.Current\bin\Release\net472\MpxjTest.Current.exe" failonerror="true">
+			<arg line='c:\java\mpxj\junit\data "${env.MPXJ_PRIVATE}\data" "${env.MPXJ_PRIVATE}\baseline"'/>
+		</exec>
+
+		<echo message="MPXJ Current net6.0"/>
+		<exec executable="${basedir}\MpxjTest.Current\bin\Release\net6.0\MpxjTest.Current.exe" failonerror="true">
+			<arg line='c:\java\mpxj\junit\data "${env.MPXJ_PRIVATE}\data" "${env.MPXJ_PRIVATE}\baseline"'/>
+		</exec>
+	</target>
+</project>

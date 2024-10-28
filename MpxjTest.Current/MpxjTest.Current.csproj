@@ -6,6 +6,6 @@
 
   <ItemGroup>
     <PackageReference Include="IKVM.Maven.Sdk" Version="1.8.2" />
-    <MavenReference Include="net.sf.mpxj:mpxj-tests" Version="13.5.0" />
+    <MavenReference Include="net.sf.mpxj:mpxj-tests" Version="13.5.1" />
   </ItemGroup>
 </Project>

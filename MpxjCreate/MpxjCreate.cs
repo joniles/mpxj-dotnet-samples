@@ -123,7 +123,7 @@ namespace MpxjSample
             //
             // Link these two tasks
             //            
-            task3.AddPredecessor(new Relation.Builder(file).TargetTask(task2).Type(RelationType.FinishStart));
+            task3.AddPredecessor(new Relation.Builder(file).PredecessorTask(task2).Type(RelationType.FinishStart));
 
             //
             // Add a milestone
@@ -132,7 +132,7 @@ namespace MpxjSample
             milestone1.Name = "Milestone";
             milestone1.Start = DateTime.Parse("2003-01-21 08:00");
             milestone1.Duration = Duration.GetInstance(0, TimeUnit.Days);            
-            milestone1.AddPredecessor(new Relation.Builder(file).TargetTask(task2).Type(RelationType.FinishStart));
+            milestone1.AddPredecessor(new Relation.Builder(file).PredecessorTask(task2).Type(RelationType.FinishStart));
 
             //
             // This final task has a percent complete value, but no

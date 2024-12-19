@@ -147,11 +147,12 @@ public class ScheduleSpreadsheet
     /// Create and populate a worksheet.
     /// </summary>
     /// <typeparam name="T"></typeparam>
+    ///  <typeparam name="U"></typeparam>
     /// <param name="id">integer ID of the sheet</param>
     /// <param name="name">worksheet title</param>
     /// <param name="items">collection of entities, each one will be a row on the sheet</param>
     /// <param name="fields">fields from each entity to show as columns</param>
-    private void CreateWorksheet<T>(uint id, string name, IList<T> items, IFieldType[] fields) where T : IFieldContainer
+    private void CreateWorksheet<T, U>(uint id, string name, IList<T> items, U[] fields) where T : IFieldContainer where U : IFieldType
     {
         var worksheetPart = _workbookPart.AddNewPart<WorksheetPart>();
         var data = new SheetData();

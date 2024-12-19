@@ -1,8 +1,12 @@
 {
   "profiles": {
-    "MpxjQuery": {
+    "MpxjQuery (Windows)": {
       "commandName": "Project",
       "commandLineArgs": "c:\\users\\jon\\desktop\\three-tasks.mpp"
-    }
+    },
+    "MpxjQuery (Mac)": {
+      "commandName": "Project",
+      "commandLineArgs": "/Users/joniles/Downloads/three-tasks.mpp"
+    }    
   }
 }

@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using MPXJ.Net;
 
 namespace MpxjQuery
 {
-    class MpxjQuery
+    public static class MpxjQuery
     {
         /// <summary>
         /// Main entry point.
         /// </summary>
         /// <param name="args">command line arguments</param>
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
 #if NETCOREAPP
             System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
@@ -28,7 +27,7 @@ namespace MpxjQuery
                 }
             }
 
-            catch (Exception ex)
+            catch (System.Exception ex)
             {
                 System.Console.WriteLine(ex.StackTrace);
             }
@@ -223,14 +222,14 @@ namespace MpxjQuery
         }
 
         /// <summary>
-        /// This method lists any notes attached to tasks..
+        /// This method lists any notes attached to tasks.
         /// </summary>
         /// <param name="file">project file</param>
         private static void ListTaskNotes(ProjectFile file)
         {
             foreach (Task task in file.Tasks)
             {
-                String notes = task.Notes;
+                string notes = task.Notes;
 
                 if (!string.IsNullOrEmpty(notes))
                 {
@@ -249,9 +248,9 @@ namespace MpxjQuery
         {
             foreach (Resource resource in file.Resources)
             {
-                String notes = resource.Notes;
+                string notes = resource.Notes;
 
-                if (notes != null && notes.Length != 0)
+                if (!string.IsNullOrEmpty(notes))
                 {
                     System.Console.WriteLine("Notes for " + resource.Name + ": " + notes);
                 }

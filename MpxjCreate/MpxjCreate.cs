@@ -33,7 +33,7 @@ namespace MpxjSample
                 else
                 {
                     MpxjCreate create = new MpxjCreate();
-                    create.process(args[0]);
+                    create.Process(args[0]);
                 }
             }
 
@@ -43,7 +43,7 @@ namespace MpxjSample
             }
         }
 
-        public void process(string filename)
+        public void Process(string filename)
         {
             //
             // Create a ProjectFile instance
@@ -136,7 +136,7 @@ namespace MpxjSample
 
             //
             // This final task has a percent complete value, but no
-            // resource assignments. This is an interesting case it it requires
+            // resource assignments. This is an interesting case as it requires
             // special processing to generate the MSPDI file correctly.
             //
             Task task4 = file.AddTask();
@@ -187,7 +187,7 @@ namespace MpxjSample
             // Write the file
             //
             var extension = Path.GetExtension(filename);
-            if (extension == null || extension.Length == 0)
+            if (string.IsNullOrEmpty(extension))
             {
                 throw new ArgumentException("Filename has no extension");
             }

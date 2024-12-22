@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "MpxjQuery": {
+    "MpxjQueryVB": {
       "commandName": "Project",
       "commandLineArgs": "sample.mpp"
     }

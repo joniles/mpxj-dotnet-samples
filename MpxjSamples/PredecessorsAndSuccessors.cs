@@ -1,5 +1,7 @@
-﻿using MPXJ.Net;
-using System;
+﻿using System;
+using MPXJ.Net;
+
+namespace MpxjSamples;
 
 /// <summary>
 /// Illustrates retrieving predecessor and successor details from a project.

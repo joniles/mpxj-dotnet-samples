@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using MPXJ.Net;
 
-namespace MPXJ.Samples.HowToRead;
+namespace MpxjSamples.HowToRead;
 
 public class PMXMLListProjects
 {

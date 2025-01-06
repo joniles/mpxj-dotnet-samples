@@ -2,6 +2,8 @@
 using System.Linq;
 using MPXJ.Net;
 
+namespace MpxjSamples;
+
 public class BuildFieldDictionary
 {
     public void Execute()

@@ -1,5 +1,7 @@
 ﻿using MPXJ.Net;
 
+namespace MpxjSamples;
+
 public class ReadProjectProperties
 {
     public void Execute(string filename)
@@ -31,7 +33,7 @@ public class ReadProjectProperties
             // us the string representation from the "raw" type.
             //
             System.Console.WriteLine(field
-                + ":\t" + value);
+                                     + ":\t" + value);
         }
     }
 }

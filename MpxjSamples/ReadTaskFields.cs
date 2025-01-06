@@ -1,6 +1,8 @@
 ﻿using System;
 using MPXJ.Net;
 
+namespace MpxjSamples;
+
 public class ReadTaskFields
 {
     public void Execute()
@@ -52,7 +54,7 @@ public class ReadTaskFields
                 // us the string representation from the "raw" type.
                 //
                 Console.WriteLine("\t" + field
-                    + ":\t" + value);
+                                       + ":\t" + value);
             }
         }
         Console.WriteLine();
@@ -89,37 +91,37 @@ public class ReadTaskFields
                 switch (field.DataType)
                 {
                     case DataType.Date:
-                        {
-                            // Now we know we are working with a DATE, we
-                            // can manipulate the "raw" value directly, rather than
-                            // relying on the ToString method. In this example we'll
-                            // create a variable of the correct type:
-                            var dateTimeValue = value as DateTime?;
-                            Console.WriteLine("\t" + field
-                                + ":\t" + dateTimeValue);
-                            break;
-                        }
+                    {
+                        // Now we know we are working with a DATE, we
+                        // can manipulate the "raw" value directly, rather than
+                        // relying on the ToString method. In this example we'll
+                        // create a variable of the correct type:
+                        var dateTimeValue = value as DateTime?;
+                        Console.WriteLine("\t" + field
+                                               + ":\t" + dateTimeValue);
+                        break;
+                    }
 
                     case DataType.Currency:
-                        {
-                            // Here's another example, if we know we're working with a currency
-                            // we can cast the value to a double
-                            // In this case we're also formatting the value as a currency.
-                            var numberValue = value as double?;
-                            Console.WriteLine("\t" + field
-                                + ":\t" + numberValue?.ToString("C2"));
-                            break;
-                        }
+                    {
+                        // Here's another example, if we know we're working with a currency
+                        // we can cast the value to a double
+                        // In this case we're also formatting the value as a currency.
+                        var numberValue = value as double?;
+                        Console.WriteLine("\t" + field
+                                               + ":\t" + numberValue?.ToString("C2"));
+                        break;
+                    }
 
                     case DataType.String:
-                        {
-                            // Last example: the STRING data type is already a dot net string
-                            // so we can use that directly.
-                            var stringValue = value as string;
-                            Console.WriteLine("\t" + field
-                                + ":\t" + stringValue);
-                            break;
-                        }
+                    {
+                        // Last example: the STRING data type is already a dot net string
+                        // so we can use that directly.
+                        var stringValue = value as string;
+                        Console.WriteLine("\t" + field
+                                               + ":\t" + stringValue);
+                        break;
+                    }
                 }
             }
         }
@@ -151,7 +153,7 @@ public class ReadTaskFields
                 {
                     // Just write the field value using ToString
                     Console.WriteLine("\t" + field
-                        + ":\t" + value);
+                                           + ":\t" + value);
                 }
             }
         }

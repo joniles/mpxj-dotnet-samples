@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using MPXJ.Net;
 
+namespace MpxjSamples;
+
 /// <summary>
 /// Demonstrate how a calendar's exceptions can be separated out into the
 /// individual affected days.

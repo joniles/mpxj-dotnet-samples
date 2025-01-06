@@ -2,6 +2,8 @@
 using System.Linq;
 using MPXJ.Net;
 
+namespace MpxjSamples;
+
 public class CalendarSamples
 {
     private const string DateFormat = "yyyy-MM-dd";
@@ -140,9 +142,9 @@ public class CalendarSamples
         Console.WriteLine(exceptionDate.ToString(DateFormat) + " is a " + (workingDate ? "working" : "non-working") + " day");
 
         Console.WriteLine("Working time on Tuesdays is normally "
-            + calendar.GetWork(DayOfWeek.Tuesday, TimeUnit.Hours) + " but on "
-            + exceptionDate.ToString(DateFormat) + " it is "
-            + calendar.GetWork(exceptionDate, TimeUnit.Hours));
+                          + calendar.GetWork(DayOfWeek.Tuesday, TimeUnit.Hours) + " but on "
+                          + exceptionDate.ToString(DateFormat) + " it is "
+                          + calendar.GetWork(exceptionDate, TimeUnit.Hours));
         Console.WriteLine();
 
         //
@@ -244,8 +246,8 @@ public class CalendarSamples
         {
             var dayType = calendar.GetCalendarDayType(day);
             Console.WriteLine(day
-                + " is a " + dayType + " day ("
-                + FormatDateRanges(calendar.GetCalendarHours(day)) + ")");
+                              + " is a " + dayType + " day ("
+                              + FormatDateRanges(calendar.GetCalendarHours(day)) + ")");
         }
         Console.WriteLine();
     }

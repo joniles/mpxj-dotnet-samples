@@ -1,11 +1,12 @@
-﻿using DocumentFormat.OpenXml;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
+using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
 using MPXJ.Net;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
 
+namespace ScheduleSpreadsheet;
 
 /// <summary>
 /// Example of creating a spreadsheet from a schedule.

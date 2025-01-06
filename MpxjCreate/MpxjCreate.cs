@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using MPXJ.Net;
 
-namespace MpxjSample
+namespace MpxjCreate
 {
     public class MpxjCreate
     {

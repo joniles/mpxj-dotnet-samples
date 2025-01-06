@@ -1,5 +1,6 @@
 ﻿using MPXJ.Net;
 
+namespace MpxjSamples;
 
 /// <summary>
 /// Illustrates retrieving custom field configuration details.
@@ -25,4 +26,3 @@ public class CustomFieldDefinitions
         }
     }
 }
-

@@ -51,11 +51,11 @@ public class ReadTaskFields
                 // Here we ae relying on the ToString method to give
                 // us the string representation from the "raw" type.
                 //
-                System.Console.WriteLine("\t" + field
+                Console.WriteLine("\t" + field
                     + ":\t" + value);
             }
         }
-        System.Console.WriteLine();
+        Console.WriteLine();
 
         //
         // Now let's see how we can work directly with the type values
@@ -95,7 +95,7 @@ public class ReadTaskFields
                             // relying on the ToString method. In this example we'll
                             // create a variable of the correct type:
                             var dateTimeValue = value as DateTime?;
-                            System.Console.WriteLine("\t" + field
+                            Console.WriteLine("\t" + field
                                 + ":\t" + dateTimeValue);
                             break;
                         }
@@ -106,7 +106,7 @@ public class ReadTaskFields
                             // we can cast the value to a double
                             // In this case we're also formatting the value as a currency.
                             var numberValue = value as double?;
-                            System.Console.WriteLine("\t" + field
+                            Console.WriteLine("\t" + field
                                 + ":\t" + numberValue?.ToString("C2"));
                             break;
                         }
@@ -116,7 +116,7 @@ public class ReadTaskFields
                             // Last example: the STRING data type is already a dot net string
                             // so we can use that directly.
                             var stringValue = value as string;
-                            System.Console.WriteLine("\t" + field
+                            Console.WriteLine("\t" + field
                                 + ":\t" + stringValue);
                             break;
                         }
@@ -150,7 +150,7 @@ public class ReadTaskFields
                 if (value != null)
                 {
                     // Just write the field value using ToString
-                    System.Console.WriteLine("\t" + field
+                    Console.WriteLine("\t" + field
                         + ":\t" + value);
                 }
             }

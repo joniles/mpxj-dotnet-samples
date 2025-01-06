@@ -9,20 +9,20 @@ Module MpxjQuery
     Sub Main(args As String())
         Try
             If args.Length <> 1 Then
-                System.Console.WriteLine("Usage: MpxQuery <input file name>")
+                Console.WriteLine("Usage: MpxQuery <input file name>")
             Else
                 Query(args(0))
             End If
 
         Catch ex As Exception
-            System.Console.WriteLine(ex.StackTrace)
+            Console.WriteLine(ex.StackTrace)
         End Try
 
     End Sub
 
     ''' <summary>
     ''' This method performs a set of queries to retrieve information
-    ''' from the an MPP or an MPX file.
+    ''' from a schedule file.
     ''' </summary>
     ''' <param name="filename">name of the project file</param>
     Private Sub Query(filename As String)
@@ -63,8 +63,8 @@ Module MpxjQuery
         Dim formattedStartDate As String = If(header.StartDate Is Nothing, "(none)", header.StartDate.ToString())
         Dim formattedFinishDate As String = If(header.FinishDate Is Nothing, "(none)", header.FinishDate.ToString())
 
-        System.Console.WriteLine("Project Header: StartDate=" & formattedStartDate & " FinishDate=" & formattedFinishDate)
-        System.Console.WriteLine()
+        Console.WriteLine("Project Header: StartDate=" & formattedStartDate & " FinishDate=" & formattedFinishDate)
+        Console.WriteLine()
     End Sub
 
     ''' <summary>
@@ -73,9 +73,9 @@ Module MpxjQuery
     ''' <param name="file">project file</param>
     Private Sub ListResources(file As ProjectFile)
         For Each resource As Resource In file.Resources
-            System.Console.WriteLine("Resource: " & resource.Name & " (Unique ID=" & ToString(resource.UniqueID) & ") Start=" & ToString(resource.Start) & " Finish=" & ToString(resource.Finish))
+            Console.WriteLine("Resource: " & resource.Name & " (Unique ID=" & ToString(resource.UniqueID) & ") Start=" & ToString(resource.Start) & " Finish=" & ToString(resource.Finish))
         Next
-        System.Console.WriteLine()
+        Console.WriteLine()
     End Sub
 
     ''' <summary>
@@ -120,9 +120,9 @@ Module MpxjQuery
                 End If
             End If
 
-            System.Console.WriteLine("Task: " & task.Name & " ID=" & ToString(task.ID) & " Unique ID=" & ToString(task.UniqueID) & " (Start Date=" & startDate & " Finish Date=" & finishDate & " Duration=" & duration & " Baseline Duration=" & baselineDuration & " Outline Level=" & ToString(task.OutlineLevel) & " Outline Number=" & task.OutlineNumber & " Recurring=" & task.Recurring & ")")
+            Console.WriteLine("Task: " & task.Name & " ID=" & ToString(task.ID) & " Unique ID=" & ToString(task.UniqueID) & " (Start Date=" & startDate & " Finish Date=" & finishDate & " Duration=" & duration & " Baseline Duration=" & baselineDuration & " Outline Level=" & ToString(task.OutlineLevel) & " Outline Number=" & task.OutlineNumber & " Recurring=" & task.Recurring & ")")
         Next
-        System.Console.WriteLine()
+        Console.WriteLine()
     End Sub
 
     ''' <summary>
@@ -132,11 +132,11 @@ Module MpxjQuery
     ''' <param name="file">project file</param>
     Private Sub ListHierarchy(file As ProjectFile)
         For Each task As Task In file.ChildTasks
-            System.Console.WriteLine("Task: " & task.Name)
+            Console.WriteLine("Task: " & task.Name)
             ListHierarchy(task, " ")
         Next
 
-        System.Console.WriteLine()
+        Console.WriteLine()
     End Sub
 
     ''' <summary>
@@ -146,7 +146,7 @@ Module MpxjQuery
     ''' <param name="indent">print indent</param>
     Private Sub ListHierarchy(task As Task, indent As String)
         For Each child As Task In task.ChildTasks
-            System.Console.WriteLine(indent & "Task: " & child.Name)
+            Console.WriteLine(indent & "Task: " & child.Name)
             ListHierarchy(child, indent & " ")
         Next
     End Sub
@@ -176,10 +176,10 @@ Module MpxjQuery
                 resourceName = resource.Name
             End If
 
-            System.Console.WriteLine("Assignment: Task=" & taskName & " Resource=" & resourceName)
+            Console.WriteLine("Assignment: Task=" & taskName & " Resource=" & resourceName)
         Next
 
-        System.Console.WriteLine()
+        Console.WriteLine()
     End Sub
 
     ''' <summary>
@@ -190,7 +190,7 @@ Module MpxjQuery
     ''' <param name="file">project file</param>
     Private Sub ListAssignmentsByTask(file As ProjectFile)
         For Each task As Task In file.Tasks
-            System.Console.WriteLine("Assignments for task " & task.Name & ":")
+            Console.WriteLine("Assignments for task " & task.Name & ":")
 
             For Each assignment As ResourceAssignment In task.ResourceAssignments
                 Dim resource As Resource = assignment.Resource
@@ -202,11 +202,11 @@ Module MpxjQuery
                     resourceName = resource.Name
                 End If
 
-                System.Console.WriteLine("   " & resourceName)
+                Console.WriteLine("   " & resourceName)
             Next
         Next
 
-        System.Console.WriteLine()
+        Console.WriteLine()
     End Sub
 
     ''' <summary>
@@ -217,19 +217,19 @@ Module MpxjQuery
     ''' <param name="file">project file</param>
     Private Sub ListAssignmentsByResource(file As ProjectFile)
         For Each resource As Resource In file.Resources
-            System.Console.WriteLine("Assignments for resource " & resource.Name & ":")
+            Console.WriteLine("Assignments for resource " & resource.Name & ":")
 
             For Each assignment As ResourceAssignment In resource.TaskAssignments
                 Dim task As Task = assignment.Task
-                System.Console.WriteLine("   " & task.Name)
+                Console.WriteLine("   " & task.Name)
             Next
         Next
 
-        System.Console.WriteLine()
+        Console.WriteLine()
     End Sub
 
     ''' <summary>
-    ''' This method lists any notes attached to tasks..
+    ''' This method lists any notes attached to tasks.
     ''' </summary>
     ''' <param name="file">project file</param>
     Private Sub ListTaskNotes(file As ProjectFile)
@@ -237,11 +237,11 @@ Module MpxjQuery
             Dim notes As String = task.Notes
 
             If notes IsNot Nothing AndAlso notes.Length <> 0 Then
-                System.Console.WriteLine("Notes for " & task.Name & ": " & notes)
+                Console.WriteLine("Notes for " & task.Name & ": " & notes)
             End If
         Next
 
-        System.Console.WriteLine()
+        Console.WriteLine()
     End Sub
 
     ''' <summary>
@@ -253,11 +253,11 @@ Module MpxjQuery
             Dim notes As String = resource.Notes
 
             If notes IsNot Nothing AndAlso notes.Length <> 0 Then
-                System.Console.WriteLine("Notes for " & resource.Name & ": " & notes)
+                Console.WriteLine("Notes for " & resource.Name & ": " & notes)
             End If
         Next
 
-        System.Console.WriteLine()
+        Console.WriteLine()
     End Sub
 
     ''' <summary>
@@ -266,15 +266,15 @@ Module MpxjQuery
     ''' <param name="file">project file</param>
     Private Sub ListRelationships(file As ProjectFile)
         For Each task As Task In file.Tasks
-            System.Console.Write(task.ID)
-            System.Console.Write(ControlChars.Tab)
-            System.Console.Write(task.Name)
-            System.Console.Write(ControlChars.Tab)
+            Console.Write(task.ID)
+            Console.Write(ControlChars.Tab)
+            Console.Write(task.Name)
+            Console.Write(ControlChars.Tab)
 
             DumpRelationList(task.Predecessors, True)
-            System.Console.Write(ControlChars.Tab)
+            Console.Write(ControlChars.Tab)
             DumpRelationList(task.Successors, False)
-            System.Console.WriteLine()
+            Console.WriteLine()
         Next
     End Sub
 
@@ -289,35 +289,35 @@ Module MpxjQuery
         End If
 
         If relations.Count > 1 Then
-            System.Console.Write(""""c)
+            Console.Write(""""c)
         End If
 
         Dim first = True
         For Each relation In relations
             If Not first Then
-                System.Console.Write(","c)
+                Console.Write(","c)
             End If
             first = False
             If predecessors Then
-                System.Console.Write(relation.PredecessorTask.ID)
-            Else 
-                System.Console.Write(relation.SuccessorTask.ID)
+                Console.Write(relation.PredecessorTask.ID)
+            Else
+                Console.Write(relation.SuccessorTask.ID)
             End If
             Dim lag As Duration = relation.Lag
             If Not relation.Type.Equals(RelationType.FinishStart) OrElse lag.DurationValue <> 0 Then
-                System.Console.Write(relation.Type)
+                Console.Write(relation.Type)
             End If
 
             If lag.DurationValue <> 0 Then
                 If lag.DurationValue > 0 Then
-                    System.Console.Write("+")
+                    Console.Write("+")
                 End If
-                System.Console.Write(lag)
+                Console.Write(lag)
             End If
         Next
 
         If relations.Count > 1 Then
-            System.Console.Write(""""c)
+            Console.Write(""""c)
         End If
     End Sub
 
@@ -327,7 +327,7 @@ Module MpxjQuery
     ''' <param name="file">project file</param>
     Private Sub ListSlack(file As ProjectFile)
         For Each task As Task In file.Tasks
-            System.Console.WriteLine(task.Name & " Total Slack=" & ToString(task.TotalSlack) & " Start Slack=" & ToString(task.StartSlack) & " Finish Slack=" & ToString(task.FinishSlack))
+            Console.WriteLine(task.Name & " Total Slack=" & ToString(task.TotalSlack) & " Start Slack=" & ToString(task.StartSlack) & " Finish Slack=" & ToString(task.FinishSlack))
         Next
     End Sub
 
@@ -337,7 +337,7 @@ Module MpxjQuery
     ''' <param name="file">project file</param>
     Private Sub ListCalendars(file As ProjectFile)
         For Each cal As ProjectCalendar In file.Calendars
-            System.Console.WriteLine(cal.ToString())
+            Console.WriteLine(cal.ToString())
         Next
     End Sub
 

@@ -21,11 +21,11 @@ public class ProjectCalendarExceptionsToDates
     {        
         if (calendar.CalendarExceptions.Count == 0)
         {
-            System.Console.WriteLine($"Calendar {calendar.Name} has no exceptions");
+            Console.WriteLine($"Calendar {calendar.Name} has no exceptions");
         }
         else
         {
-            System.Console.WriteLine($"Calendar {calendar.Name} exceptions:");
+            Console.WriteLine($"Calendar {calendar.Name} exceptions:");
             foreach(var exception in calendar.CalendarExceptions)
             {
                 ProcessCalendarException(exception);
@@ -35,13 +35,13 @@ public class ProjectCalendarExceptionsToDates
 
     private void ProcessCalendarException(ProjectCalendarException exception)
     {
-        System.Console.WriteLine($"Exception Name: {exception.Name}");
+        Console.WriteLine($"Exception Name: {exception.Name}");
 
         // We're using ExpandedExceptions here to ensure we deal with
         // working weeks and recurring exceptions. The list
         // returned from this property could either contain a ProjectCalendarException
         // representing a contiguous range of dates, or it may contain a number
-        // ProjectCalendarException instances represneting separate days.
+        // ProjectCalendarException instances representing separate days.
         // As a demonstration we're just collecting the string representations of
         // these dates into a list and concatenating them for display.
         // NOTE: we're not distinguishing here between exceptions which
@@ -62,6 +62,6 @@ public class ProjectCalendarExceptionsToDates
         }
 
         
-        System.Console.WriteLine($"\tDays: {string.Join(", ", days)}");
+        Console.WriteLine($"\tDays: {string.Join(", ", days)}");
     }
 }

@@ -1,12 +1,8 @@
 {
   "profiles": {
-    "ScheduleSpreadsheet (Windows)": {
+    "ScheduleSpreadsheet": {
       "commandName": "Project",
       "commandLineArgs": "sample.mpp sample.xlsx"
-    },
-    "ScheduleSpreadsheet (Mac)": {
-      "commandName": "Project",
-      "commandLineArgs": "/Users/joniles/Downloads/three-tasks.mpp /Users/joniles/Downloads/test.xlsx"
     }
   }
 }

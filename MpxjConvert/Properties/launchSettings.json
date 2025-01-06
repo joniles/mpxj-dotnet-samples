@@ -2,7 +2,7 @@
   "profiles": {
     "MpxjConvert": {
       "commandName": "Project",
-      "commandLineArgs": "c:\\users\\jon\\desktop\\three-tasks.mpp c:\\users\\jon\\desktop\\test.xml"
+      "commandLineArgs": "sample.mpp sample.xml"
     }
   }
 }

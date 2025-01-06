@@ -1,4 +1,6 @@
-﻿using MPXJ.Net;
+﻿using System;
+using System.Collections.Generic;
+using MPXJ.Net;
 
 /// <summary>
 /// Demonstrate how a calendar's exceptions can be separated out into the

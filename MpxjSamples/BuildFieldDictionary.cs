@@ -1,4 +1,6 @@
-﻿using MPXJ.Net;
+﻿using System.Collections.Generic;
+using System.Linq;
+using MPXJ.Net;
 
 public class BuildFieldDictionary
 {

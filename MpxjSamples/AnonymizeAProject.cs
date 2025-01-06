@@ -9,7 +9,7 @@ public class AnonymizeAProject
 {
 	public void Execute(string filename)
 	{
-        var name = Path.GetFileName(filename);
+        var name = System.IO.Path.GetFileName(filename);
         new ProjectCleanUtility().process(filename, $"clean-{name}");
     }
 }

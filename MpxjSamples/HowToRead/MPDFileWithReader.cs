@@ -13,10 +13,10 @@ public class MPDFileWithReader
 
         // Look up the project we want to read from the map.
         // For this example we'll just use a hard-coded value.
-        var projectID = 1;
+        var projectId = 1;
 
         // Set the ID f the project we want to read
-        reader.ProjectID = projectID;
+        reader.ProjectID = projectId;
 
         // Read the project
         var project = reader.Read("my-sample.mpd");

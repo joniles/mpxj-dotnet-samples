@@ -22,8 +22,8 @@ public class P6Sqlite
         //
         // Now open the selected project using its ID
         //
-        int selectedProjectID = 1;
-        reader.ProjectID = selectedProjectID;
+        var selectedProjectId = 1;
+        reader.ProjectID = selectedProjectId;
         var projectFile = reader.Read(file);
     }
 }

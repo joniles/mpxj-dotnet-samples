@@ -158,7 +158,7 @@ public class ScheduleSpreadsheet
         var data = new SheetData();
         worksheetPart.Worksheet = new Worksheet(data);       
 
-        var sheet = new Sheet()
+        var sheet = new Sheet
         {
             Id = _workbookPart.GetIdOfPart(worksheetPart),
             SheetId = id,

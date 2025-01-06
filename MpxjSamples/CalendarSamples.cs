@@ -8,7 +8,7 @@ public class CalendarSamples
     {
         BasicOperations();
         CalendarHierarchy();
-        CalendarUniqueID();
+        CalendarUniqueId();
         DefaultCalendar();
         WorkingOrNonWorkingExceptions();
     }
@@ -19,8 +19,8 @@ public class CalendarSamples
         // Create a default calendar
         //
         System.Console.WriteLine("Create a default calendar");
-        ProjectFile file = new ProjectFile();
-        ProjectCalendar calendar = file.AddDefaultBaseCalendar();
+        var file = new ProjectFile();
+        var calendar = file.AddDefaultBaseCalendar();
         System.Console.WriteLine("The calendar name is " + calendar.Name);
         System.Console.WriteLine();
         SimpleCalendarDump(calendar);
@@ -94,7 +94,7 @@ public class CalendarSamples
         // Show how many working hours there are on Saturday
         //
         System.Console.WriteLine("Show how many working hours there are on Saturday");
-        Duration duration = calendar.GetWork(DayOfWeek.Saturday, TimeUnit.Hours);
+        var duration = calendar.GetWork(DayOfWeek.Saturday, TimeUnit.Hours);
         System.Console.WriteLine(duration);
         System.Console.WriteLine();
 
@@ -118,10 +118,10 @@ public class CalendarSamples
         System.Console.WriteLine("Add an exception for a single day");
         var exceptionDate = DateOnly.Parse("2022-05-10");
 
-        bool workingDate = calendar.IsWorkingDate(exceptionDate);
+        var workingDate = calendar.IsWorkingDate(exceptionDate);
         System.Console.WriteLine(exceptionDate.ToString(DateFormat) + " is a " + (workingDate ? "working" : "non-working") + " day");
 
-        ProjectCalendarException exception = calendar.AddCalendarException(exceptionDate);
+        var exception = calendar.AddCalendarException(exceptionDate);
         exception.Name = "A day off";
 
         workingDate = calendar.IsWorkingDate(exceptionDate);
@@ -165,7 +165,7 @@ public class CalendarSamples
         System.Console.WriteLine("Represent a \"crunch\" period in October");
         var weekStart = DateOnly.Parse("2022-10-01");
         var weekEnd = DateOnly.Parse("2022-10-21");
-        ProjectCalendarWeek week = calendar.AddWorkWeek();
+        var week = calendar.AddWorkWeek();
         week.Name = "Crunch Time!";
         week.DateRange = new DateOnlyRange(weekStart, weekEnd);
         Enum.GetValues<DayOfWeek>().ToList().ForEach(d => week.SetWorkingDay(d, true));
@@ -189,8 +189,8 @@ public class CalendarSamples
         //
         // Creating a recurring exception
         //
-        RecurringData recurringData = new RecurringData();
-        exception = calendar.AddCalendarException(recurringData);
+        var recurringData = new RecurringData();
+        calendar.AddCalendarException(recurringData);
 
         recurringData.RecurrenceType = RecurrenceType.Yearly;
         recurringData.Occurrences = 5;
@@ -228,7 +228,7 @@ public class CalendarSamples
 
     private void SimpleCalendarDump(ProjectCalendarDays calendar)
     {
-        foreach (DayOfWeek day in Enum.GetValues<DayOfWeek>())
+        foreach (var day in Enum.GetValues<DayOfWeek>())
         {
             var dayType = calendar.GetCalendarDayType(day);
             System.Console.WriteLine(day + " is a " + dayType + " day");
@@ -238,7 +238,7 @@ public class CalendarSamples
 
     private void DetailedCalendarDump(ProjectCalendarDays calendar)
     {
-        foreach (DayOfWeek day in Enum.GetValues<DayOfWeek>())
+        foreach (var day in Enum.GetValues<DayOfWeek>())
         {
             var dayType = calendar.GetCalendarDayType(day);
             System.Console.WriteLine(day
@@ -266,7 +266,7 @@ public class CalendarSamples
         System.Console.WriteLine();
     }
 
-    private void CalendarUniqueID()
+    private void CalendarUniqueId()
     {
         var file = new ProjectFile();
         var calendar1 = file.AddCalendar();
@@ -278,13 +278,13 @@ public class CalendarSamples
         var calendar3 = file.AddCalendar();
         calendar3.Name = "Calendar 3";
 
-        foreach (ProjectCalendar c in file.Calendars)
+        foreach (var c in file.Calendars)
         {
             System.Console.WriteLine(c.Name);
         }
         System.Console.WriteLine();
 
-        foreach (ProjectCalendar c in file.Calendars)
+        foreach (var c in file.Calendars)
         {
             System.Console.WriteLine(c.Name + " (Unique ID: " + c.UniqueID + ")");
         }

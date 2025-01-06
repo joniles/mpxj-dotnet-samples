@@ -9,7 +9,7 @@ public class CustomFieldDefinitions
     public void Execute(string filename)
     {
         var file = new UniversalProjectReader().Read(filename);
-        foreach(CustomField field in file.CustomFields)
+        foreach(var field in file.CustomFields)
         {
             // Show the name of the field (and the entity to which it belongs)
             System.Console.WriteLine($"{field.FieldType.FieldTypeClass}.{field.FieldType}");

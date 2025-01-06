@@ -19,7 +19,8 @@ public class BuildFieldDictionary
         // Alternative approach using simple iteration
         //
         dictionary = new Dictionary<string, TaskField>();
-        foreach(TaskField t in TaskField.Values)
+        // ReSharper disable once LoopCanBeConvertedToQuery
+        foreach(var t in TaskField.Values)
         {
             dictionary.Add(t.ObjectName, t);
         }

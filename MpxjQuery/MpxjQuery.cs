@@ -89,7 +89,7 @@ namespace MpxjQuery
         /// <param name="file">project file</param>
         private static void ListResources(ProjectFile file)
         {
-            foreach (Resource resource in file.Resources)
+            foreach (var resource in file.Resources)
             {
                 System.Console.WriteLine("Resource: " + resource.Name + " (Unique ID=" + resource.UniqueID + ") Start=" + resource.Start + " Finish=" + resource.Finish);
             }
@@ -102,7 +102,7 @@ namespace MpxjQuery
         /// <param name="file">project file</param>
         private static void ListTasks(ProjectFile file)
         {
-            foreach (Task task in file.Tasks)
+            foreach (var task in file.Tasks)
             {
                 var date = task.Start;
                 var startDate = date == null ? "(no date supplied)" : date.ToString();
@@ -132,7 +132,7 @@ namespace MpxjQuery
         /// <param name="file">project file</param>
         private static void ListHierarchy(ProjectFile file)
         {
-            foreach (Task task in file.ChildTasks)
+            foreach (var task in file.ChildTasks)
             {
                 System.Console.WriteLine("Task: " + task.Name);
                 ListHierarchy(task, " ");
@@ -148,7 +148,7 @@ namespace MpxjQuery
         /// <param name="indent">print indent</param>
         private static void ListHierarchy(Task task, string indent)
         {
-            foreach (Task child in task.ChildTasks)
+            foreach (var child in task.ChildTasks)
             {
                 System.Console.WriteLine(indent + "Task: " + child.Name);
                 ListHierarchy(child, indent + " ");
@@ -161,7 +161,7 @@ namespace MpxjQuery
         /// <param name="file">project file</param>
         private static void ListAssignments(ProjectFile file)
         {
-            foreach (ResourceAssignment assignment in file.ResourceAssignments)
+            foreach (var assignment in file.ResourceAssignments)
             {
                 var task = assignment.Task;
                 var taskName = task == null ? "(null task)" : task.Name;
@@ -183,13 +183,13 @@ namespace MpxjQuery
         /// <param name="file">project file</param>
         private static void ListAssignmentsByTask(ProjectFile file)
         {
-            foreach (Task task in file.Tasks)
+            foreach (var task in file.Tasks)
             {
                 System.Console.WriteLine("Assignments for task " + task.Name + ":");
 
-                foreach (ResourceAssignment assignment in task.ResourceAssignments)
+                foreach (var assignment in task.ResourceAssignments)
                 {
-                    Resource resource = assignment.Resource;
+                    var resource = assignment.Resource;
                     var resourceName = resource == null ? "(null resource)" : resource.Name;
 
                     System.Console.WriteLine("   " + resourceName);
@@ -207,13 +207,13 @@ namespace MpxjQuery
         /// <param name="file">project file</param>
         private static void ListAssignmentsByResource(ProjectFile file)
         {
-            foreach (Resource resource in file.Resources)
+            foreach (var resource in file.Resources)
             {
                 System.Console.WriteLine("Assignments for resource " + resource.Name + ":");
 
-                foreach (ResourceAssignment assignment in resource.TaskAssignments)
+                foreach (var assignment in resource.TaskAssignments)
                 {
-                    Task task = assignment.Task;
+                    var task = assignment.Task;
                     System.Console.WriteLine("   " + task.Name);
                 }
             }
@@ -227,9 +227,9 @@ namespace MpxjQuery
         /// <param name="file">project file</param>
         private static void ListTaskNotes(ProjectFile file)
         {
-            foreach (Task task in file.Tasks)
+            foreach (var task in file.Tasks)
             {
-                string notes = task.Notes;
+                var notes = task.Notes;
 
                 if (!string.IsNullOrEmpty(notes))
                 {
@@ -246,9 +246,9 @@ namespace MpxjQuery
         /// <param name="file">project file</param>
         private static void ListResourceNotes(ProjectFile file)
         {
-            foreach (Resource resource in file.Resources)
+            foreach (var resource in file.Resources)
             {
-                string notes = resource.Notes;
+                var notes = resource.Notes;
 
                 if (!string.IsNullOrEmpty(notes))
                 {
@@ -265,7 +265,7 @@ namespace MpxjQuery
         /// <param name="file">project file</param>
         private static void ListRelationships(ProjectFile file)
         {
-            foreach (Task task in file.Tasks)
+            foreach (var task in file.Tasks)
             {
                 System.Console.Write(task.ID);
                 System.Console.Write('\t');
@@ -334,7 +334,7 @@ namespace MpxjQuery
         /// <param name="file">project file</param>
         private static void ListSlack(ProjectFile file)
         {
-            foreach (Task task in file.Tasks)
+            foreach (var task in file.Tasks)
             {
                 System.Console.WriteLine(task.Name + " Total Slack=" + task.TotalSlack + " Start Slack=" + task.StartSlack + " Finish Slack=" + task.FinishSlack);
             }
@@ -346,7 +346,7 @@ namespace MpxjQuery
         /// <param name="file">project file</param>
         private static void ListCalendars(ProjectFile file)
         {
-            foreach (ProjectCalendar cal in file.Calendars)
+            foreach (var cal in file.Calendars)
             {
                 System.Console.WriteLine(cal.ToString());
             }
@@ -358,7 +358,7 @@ namespace MpxjQuery
         /// <param name="file">project file</param>
         private static void ListCustomFields(ProjectFile file)
         {
-            foreach (CustomField field in file.CustomFields)
+            foreach (var field in file.CustomFields)
             {
                 System.Console.WriteLine(field.ToString());
             }

@@ -9,7 +9,7 @@ public class ProjectCalendarExceptionsToDates
     public void Execute(string filename)
     {
         var file = new UniversalProjectReader().Read(filename);
-        foreach (ProjectCalendar calendar in file.Calendars)
+        foreach (var calendar in file.Calendars)
         {
             ProcessCalendar(calendar);
         }
@@ -24,7 +24,7 @@ public class ProjectCalendarExceptionsToDates
         else
         {
             System.Console.WriteLine($"Calendar {calendar.Name} exceptions:");
-            foreach(ProjectCalendarException exception in calendar.CalendarExceptions)
+            foreach(var exception in calendar.CalendarExceptions)
             {
                 ProcessCalendarException(exception);
             }
@@ -47,10 +47,10 @@ public class ProjectCalendarExceptionsToDates
         // a working day, or change a working day's hours.
         var days = new List<string>();
 
-        foreach (ProjectCalendarException expandedException in exception.ExpandedExceptions)
+        foreach (var expandedException in exception.ExpandedExceptions)
         {
-            var fromDate = expandedException.FromDate ?? throw new ArgumentException();
-            var toDate = expandedException.ToDate ?? throw new ArgumentException();
+            var fromDate = expandedException.FromDate ?? throw new ArgumentException("exception missing from date");
+            var toDate = expandedException.ToDate ?? throw new ArgumentException("exception missing to date");
 
             while (fromDate <= toDate)
             {

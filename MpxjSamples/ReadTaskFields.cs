@@ -1,5 +1,4 @@
 ﻿using MPXJ.Net;
-using Task = MPXJ.Net.Task;
 
 public class ReadTaskFields
 {
@@ -9,7 +8,7 @@ public class ReadTaskFields
         // Loop through the values in the TaskField enum
         // and write them to the console.
         //
-        foreach (TaskField field in TaskField.Values)
+        foreach (var field in TaskField.Values)
         {
             Console.WriteLine(field.ToString());
         }
@@ -19,13 +18,13 @@ public class ReadTaskFields
         //
         // Read a schedule from a sample file.
         //
-        ProjectFile file = new UniversalProjectReader().Read("example.mpp");
+        var file = new UniversalProjectReader().Read("example.mpp");
 
         //
         // Let's take a simple approach to examining all of the non-null attributes
         // for each task.
         //
-        foreach (Task task in file.Tasks)
+        foreach (var task in file.Tasks)
         {
             //
             // Write each task's ID and Name to the console
@@ -35,12 +34,12 @@ public class ReadTaskFields
             //
             // Iterate through all possible fields
             //
-            foreach (TaskField field in TaskField.Values)
+            foreach (var field in TaskField.Values)
             {
                 //
                 // Retrieve the value for the current field, ignore it if it is null
                 //
-                object value = task.GetCachedValue(field);
+                var value = task.GetCachedValue(field);
                 if (value == null)
                 {
                     continue;
@@ -51,8 +50,8 @@ public class ReadTaskFields
                 // Here we ae relying on the ToString method to give
                 // us the string representation from the "raw" type.
                 //
-                System.Console.WriteLine("\t" + field.ToString()
-                    + ":\t" + value.ToString());
+                System.Console.WriteLine("\t" + field
+                    + ":\t" + value);
             }
         }
         System.Console.WriteLine();
@@ -61,7 +60,7 @@ public class ReadTaskFields
         // Now let's see how we can work directly with the type values
         // rather than relying on the ToString method.
         //
-        foreach (Task task in file.Tasks)
+        foreach (var task in file.Tasks)
         {
             //
             // Write each task's ID and Name to the console
@@ -71,12 +70,12 @@ public class ReadTaskFields
             //
             // Iterate through all possible fields
             //
-            foreach (TaskField field in TaskField.Values)
+            foreach (var field in TaskField.Values)
             {
                 //
                 // Retrieve the value for the current field, ignore it if it is null
                 //
-                object value = task.GetCachedValue(field);
+                var value = task.GetCachedValue(field);
                 if (value == null)
                 {
                     continue;
@@ -88,9 +87,6 @@ public class ReadTaskFields
                 //
                 switch (field.DataType)
                 {
-                    // This nasty syntax is unfortunately required to
-                    // ensure that the original Java enum values can be used in
-                    // dot net code.
                     case DataType.Date:
                         {
                             // Now we know we are working with a DATE, we
@@ -98,29 +94,28 @@ public class ReadTaskFields
                             // relying on the ToString method. In this example we'll
                             // create a variable of the correct type:
                             var dateTimeValue = value as DateTime?;
-                            System.Console.WriteLine("\t" + field.ToString()
-                                + ":\t" + dateTimeValue.ToString());
+                            System.Console.WriteLine("\t" + field
+                                + ":\t" + dateTimeValue);
                             break;
                         }
 
-                    // Here's another example, if we know we're working with a currency
-                    // we can cast to the original Java type, and from there we can
-                    // retrieve a dot net double, making it much easier to work with.
-                    // In this case we're formatting the value as a currency.
                     case DataType.Currency:
                         {
+                            // Here's another example, if we know we're working with a currency
+                            // we can cast the value to a double
+                            // In this case we're also formatting the value as a currency.
                             var numberValue = value as double?;
-                            System.Console.WriteLine("\t" + field.ToString()
+                            System.Console.WriteLine("\t" + field
                                 + ":\t" + numberValue?.ToString("C2"));
                             break;
                         }
 
-                    // Last example: the STRING data type is alreday a dot net string
-                    // so we can use that directly.
                     case DataType.String:
                         {
+                            // Last example: the STRING data type is already a dot net string
+                            // so we can use that directly.
                             var stringValue = value as string;
-                            System.Console.WriteLine("\t" + field.ToString()
+                            System.Console.WriteLine("\t" + field
                                 + ":\t" + stringValue);
                             break;
                         }
@@ -138,7 +133,7 @@ public class ReadTaskFields
         //
         var populatedFields = file.Tasks.PopulatedFields;
 
-        foreach (Task task in file.Tasks)
+        foreach (var task in file.Tasks)
         {
             // Write each task's ID and Name to the console
             Console.WriteLine(task.ID + ":\t" + task.Name);
@@ -154,8 +149,8 @@ public class ReadTaskFields
                 if (value != null)
                 {
                     // Just write the field value using ToString
-                    System.Console.WriteLine("\t" + field.ToString()
-                        + ":\t" + value.ToString());
+                    System.Console.WriteLine("\t" + field
+                        + ":\t" + value);
                 }
             }
         }

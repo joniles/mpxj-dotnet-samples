@@ -11,7 +11,7 @@ Module MpxjQuery
             If args.Length <> 1 Then
                 System.Console.WriteLine("Usage: MpxQuery <input file name>")
             Else
-                query(args(0))
+                Query(args(0))
             End If
 
         Catch ex As Exception
@@ -25,8 +25,8 @@ Module MpxjQuery
     ''' from the an MPP or an MPX file.
     ''' </summary>
     ''' <param name="filename">name of the project file</param>
-    Private Sub query(filename As String)
-        Dim reader As UniversalProjectReader = New UniversalProjectReader()
+    Private Sub Query(filename As String)
+        Dim reader = New UniversalProjectReader()
         Dim file As ProjectFile = reader.Read(filename)
 
         ListProjectHeader(file)
@@ -292,8 +292,8 @@ Module MpxjQuery
             System.Console.Write(""""c)
         End If
 
-        Dim first As Boolean = True
-        For Each relation As Relation In relations
+        Dim first = True
+        For Each relation In relations
             If Not first Then
                 System.Console.Write(","c)
             End If

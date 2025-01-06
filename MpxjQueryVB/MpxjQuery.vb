@@ -271,9 +271,9 @@ Module MpxjQuery
             System.Console.Write(task.Name)
             System.Console.Write(ControlChars.Tab)
 
-            DumpRelationList(task.Predecessors)
+            DumpRelationList(task.Predecessors, True)
             System.Console.Write(ControlChars.Tab)
-            DumpRelationList(task.Successors)
+            DumpRelationList(task.Successors, False)
             System.Console.WriteLine()
         Next
     End Sub
@@ -283,7 +283,7 @@ Module MpxjQuery
     ''' easily be compared with the tabular data in MS Project.
     ''' </summary>
     ''' <param name="relations">project file</param>
-    Private Sub DumpRelationList(relations As IList(Of Relation))
+    Private Sub DumpRelationList(relations As IList(Of Relation), predecessors as Boolean)
         If relations Is Nothing Or relations.Count = 0 Then
             Return
         End If
@@ -298,10 +298,14 @@ Module MpxjQuery
                 System.Console.Write(","c)
             End If
             first = False
-            System.Console.Write(relation.TargetTask.ID)
+            If predecessors Then
+                System.Console.Write(relation.PredecessorTask.ID)
+            Else 
+                System.Console.Write(relation.SuccessorTask.ID)
+            End If
             Dim lag As Duration = relation.Lag
-            If Not relation.GetType().Equals(RelationType.FinishStart) OrElse lag.DurationValue <> 0 Then
-                System.Console.Write(relation.[GetType]())
+            If Not relation.Type.Equals(RelationType.FinishStart) OrElse lag.DurationValue <> 0 Then
+                System.Console.Write(relation.Type)
             End If
 
             If lag.DurationValue <> 0 Then

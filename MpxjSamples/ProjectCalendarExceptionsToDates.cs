@@ -60,6 +60,6 @@ public class ProjectCalendarExceptionsToDates
         }
 
         
-        System.Console.WriteLine($"\tDays: {String.Join(", ", days)}");
+        System.Console.WriteLine($"\tDays: {string.Join(", ", days)}");
     }
 }

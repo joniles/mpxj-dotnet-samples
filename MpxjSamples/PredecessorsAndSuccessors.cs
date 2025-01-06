@@ -14,7 +14,7 @@ public class PredecessorsAndSuccessors
         {
             foreach (Relation r in t.Predecessors)
             {
-                System.Console.WriteLine("Task UniqueID: " + t.UniqueID + " Predcessor: " + r.TargetTask.UniqueID + " Type: " + r.Type);
+                System.Console.WriteLine("Task UniqueID: " + t.UniqueID + " Predcessor: " + r.PredecessorTask.UniqueID + " Type: " + r.Type);
             }
         }
 
@@ -24,7 +24,7 @@ public class PredecessorsAndSuccessors
         {
             foreach (Relation r in t.Successors)
             {
-                System.Console.WriteLine("Task UniqueID: " + t.UniqueID + " Successor: " + r.TargetTask.UniqueID + " Type: " + r.Type);
+                System.Console.WriteLine("Task UniqueID: " + t.UniqueID + " Successor: " + r.SuccessorTask.UniqueID + " Type: " + r.Type);
             }
         }
     }

@@ -14,7 +14,7 @@ using System.Globalization;
 public class ScheduleSpreadsheet
 {
     // Fields to add to the project sheet
-    private readonly ProjectField[] ProjectFields = {
+    private static readonly ProjectField[] ProjectFields = {
         ProjectField.Name,
         ProjectField.ProjectTitle,
         ProjectField.UniqueId,
@@ -24,7 +24,7 @@ public class ScheduleSpreadsheet
     };
 
     // Fields to add to the tasks sheet
-    private readonly TaskField[] TaskFields = {
+    private static readonly TaskField[] TaskFields = {
         TaskField.Id,
         TaskField.UniqueID,
         TaskField.Name,
@@ -35,14 +35,14 @@ public class ScheduleSpreadsheet
     };
 
     // Fields to add to the resource sheet
-    private readonly ResourceField[] ResourceFields = {
+    private static readonly ResourceField[] ResourceFields = {
         ResourceField.Id,
         ResourceField.UniqueId,
         ResourceField.Name
     };
 
-    // Firlds to add to the resource assignment sheet
-    private readonly AssignmentField[] AssignmentFields = {
+    // Fields to add to the resource assignment sheet
+    private static readonly AssignmentField[] AssignmentFields = {
         AssignmentField.UniqueId,
         AssignmentField.TaskUniqueId,
         AssignmentField.ResourceUniqueId,
@@ -57,11 +57,11 @@ public class ScheduleSpreadsheet
     /// Main entry point for command line use.
     /// </summary>
     /// <param name="args"></param>
-    static void Main(string[] args)
+    public static void Main(string[] args)
     {
         if (args.Length != 2)
         {
-            System.Console.WriteLine("Useage: ScheduleSpreadsheet <input schedule file name> <output xlsx file name>");
+            Console.WriteLine("Usage: ScheduleSpreadsheet <input schedule file name> <output xlsx file name>");
             return;
         }
         new ScheduleSpreadsheet().Process(args[0], args[1]);
@@ -95,7 +95,7 @@ public class ScheduleSpreadsheet
     }
 
     /// <summary>
-    /// Boilderplat code to create the spreadhseet and populate a style to allow
+    /// Boilerplate code to create the spreadsheet and populate a style to allow
     /// dates to be formatted in the user's current date/time format.
     /// </summary>
     /// <param name="spreadsheetFile"></param>
@@ -147,11 +147,12 @@ public class ScheduleSpreadsheet
     /// Create and populate a worksheet.
     /// </summary>
     /// <typeparam name="T"></typeparam>
+    ///  <typeparam name="U"></typeparam>
     /// <param name="id">integer ID of the sheet</param>
     /// <param name="name">worksheet title</param>
     /// <param name="items">collection of entities, each one will be a row on the sheet</param>
     /// <param name="fields">fields from each entity to show as columns</param>
-    private void CreateWorksheet<T>(uint id, string name, IList<T> items, IFieldType[] fields) where T : IFieldContainer
+    private void CreateWorksheet<T, U>(uint id, string name, IList<T> items, U[] fields) where T : IFieldContainer where U : IFieldType
     {
         var worksheetPart = _workbookPart.AddNewPart<WorksheetPart>();
         var data = new SheetData();
@@ -187,7 +188,7 @@ public class ScheduleSpreadsheet
 
     /// <summary>
     /// Adds a cell and trys to interpret the data type of the value appropriately
-    /// so the result is correctly formatted in Excel. Falls back on formatting]ythe value
+    /// so the result is correctly formatted in Excel. Falls back on formatting the value
     /// as a string if it doesn't recognise it.
     /// </summary>
     /// <param name="row">row to add the cell to</param>
@@ -238,7 +239,7 @@ public class ScheduleSpreadsheet
             return;
         }
 
-        cell.CellValue = new CellValue(value.ToString());
+        cell.CellValue = new CellValue(value.ToString() ?? string.Empty);
         cell.DataType = new EnumValue<CellValues>(CellValues.String);
     }
 }

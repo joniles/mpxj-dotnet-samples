@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using MPXJ.Net;
 
 namespace MpxjQuery
 {
-    class MpxjQuery
+    public static class MpxjQuery
     {
         /// <summary>
         /// Main entry point.
         /// </summary>
         /// <param name="args">command line arguments</param>
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
 #if NETCOREAPP
             System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
@@ -28,7 +27,7 @@ namespace MpxjQuery
                 }
             }
 
-            catch (Exception ex)
+            catch (System.Exception ex)
             {
                 System.Console.WriteLine(ex.StackTrace);
             }
@@ -39,7 +38,7 @@ namespace MpxjQuery
         /// This method demonstrates reading data from a project.
         /// </summary>
         /// <param name="filename">name of the project file</param>
-        private static void Query(String filename)
+        private static void Query(string filename)
         {
             var file = new UniversalProjectReader().Read(filename);
 
@@ -147,7 +146,7 @@ namespace MpxjQuery
         /// </summary>
         /// <param name="task">Task instance</param>
         /// <param name="indent">print indent</param>
-        private static void ListHierarchy(Task task, String indent)
+        private static void ListHierarchy(Task task, string indent)
         {
             foreach (Task child in task.ChildTasks)
             {
@@ -223,16 +222,16 @@ namespace MpxjQuery
         }
 
         /// <summary>
-        /// This method lists any notes attached to tasks..
+        /// This method lists any notes attached to tasks.
         /// </summary>
         /// <param name="file">project file</param>
         private static void ListTaskNotes(ProjectFile file)
         {
             foreach (Task task in file.Tasks)
             {
-                String notes = task.Notes;
+                string notes = task.Notes;
 
-                if (notes != null && notes.Length != 0)
+                if (!string.IsNullOrEmpty(notes))
                 {
                     System.Console.WriteLine("Notes for " + task.Name + ": " + notes);
                 }
@@ -249,9 +248,9 @@ namespace MpxjQuery
         {
             foreach (Resource resource in file.Resources)
             {
-                String notes = resource.Notes;
+                string notes = resource.Notes;
 
-                if (notes != null && notes.Length != 0)
+                if (!string.IsNullOrEmpty(notes))
                 {
                     System.Console.WriteLine("Notes for " + resource.Name + ": " + notes);
                 }
@@ -273,9 +272,9 @@ namespace MpxjQuery
                 System.Console.Write(task.Name);
                 System.Console.Write('\t');
 
-                DumpRelationList(task.Predecessors);
+                DumpRelationList(task.Predecessors, true);
                 System.Console.Write('\t');
-                DumpRelationList(task.Successors);
+                DumpRelationList(task.Successors, false);
                 System.Console.WriteLine();
             }
         }
@@ -284,8 +283,9 @@ namespace MpxjQuery
         /// Internal utility to dump relationship lists in a structured format that can 
         /// easily be compared with the tabular data in MS Project.
         /// </summary>
-        /// <param name="relations">project file</param>
-        private static void DumpRelationList(IList<Relation> relations)
+        /// <param name="relations">list of relations</param>
+        /// <param name="predecessors">true if this is a list of predecessors</param>
+        private static void DumpRelationList(IList<Relation> relations, bool predecessors)
         {
             if (relations == null || relations.Count == 0)
             {
@@ -306,7 +306,7 @@ namespace MpxjQuery
                 }
 
                 first = false;
-                System.Console.Write(relation.TargetTask.ID);
+                System.Console.Write(predecessors ? relation.PredecessorTask.ID : relation.SuccessorTask.ID);
                 var lag = relation.Lag;
                 if (relation.Type != RelationType.FinishStart || lag.DurationValue != 0)
                 {
@@ -365,3 +365,4 @@ namespace MpxjQuery
         }
     }
 }
+

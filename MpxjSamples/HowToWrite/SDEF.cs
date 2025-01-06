@@ -1,6 +1,6 @@
 ﻿using MPXJ.Net;
 
-namespace MPXJ.Samples.HowToWrite;
+namespace MpxjSamples.HowToWrite;
 
 public class SDEF
 {

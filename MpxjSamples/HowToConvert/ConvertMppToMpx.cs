@@ -1,5 +1,7 @@
 ﻿using MPXJ.Net;
 
+namespace MpxjSamples.HowToConvert;
+
 public class ConvertMppToMpx
 {
     public void Convert(string inputFile, string outputFile)

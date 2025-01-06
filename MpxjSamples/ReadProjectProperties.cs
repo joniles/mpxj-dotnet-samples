@@ -1,5 +1,7 @@
 ﻿using MPXJ.Net;
 
+namespace MpxjSamples;
+
 public class ReadProjectProperties
 {
     public void Execute(string filename)
@@ -7,19 +9,19 @@ public class ReadProjectProperties
         //
         // Read a schedule from a sample file.
         //
-        ProjectFile file = new UniversalProjectReader().Read(filename);
+        var file = new UniversalProjectReader().Read(filename);
 
 
         //
         // Iterate through allproject property fields
         //
         var projectProperties = file.ProjectProperties;
-        foreach (ProjectField field in ProjectField.Values)
+        foreach (var field in ProjectField.Values)
         {
             //
             // Retrieve the value for the current field, ignore it if it is null
             //
-            object value = projectProperties.GetCachedValue(field);
+            var value = projectProperties.GetCachedValue(field);
             if (value == null)
             {
                 continue;
@@ -30,8 +32,8 @@ public class ReadProjectProperties
             // Here we are relying on the ToString method to give
             // us the string representation from the "raw" type.
             //
-            System.Console.WriteLine(field.ToString()
-                + ":\t" + value.ToString());
+            System.Console.WriteLine(field
+                                     + ":\t" + value);
         }
     }
 }

@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using MPXJ.Net;
 
-namespace MpxjSample
+namespace MpxjConvert
 {
-    class MpxjConvert
+    public class MpxjConvert
     {
-        private static readonly Dictionary<string, FileFormat> FileFormatDictionary = new Dictionary<string, FileFormat>()
+        private static readonly Dictionary<string, FileFormat> FileFormatDictionary = new Dictionary<string, FileFormat>
         {
             { "MPX", FileFormat.MPX },
             { "XML", FileFormat.MSPDI },
@@ -15,11 +15,11 @@ namespace MpxjSample
             { "PLANNER", FileFormat.PLANNER },
             { "JSON", FileFormat.JSON },
             { "SDEF", FileFormat.SDEF },
-            { "XER", FileFormat.XER },
+            { "XER", FileFormat.XER }
         };
 
 
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
 #if NETCOREAPP
             System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
@@ -32,7 +32,7 @@ namespace MpxjSample
                 }
                 else
                 {
-                    MpxjConvert convert = new MpxjConvert();
+                    var convert = new MpxjConvert();
                     convert.Process(args[0], args[1]);
                 }
             }
@@ -52,7 +52,7 @@ namespace MpxjSample
             Console.Out.WriteLine("Reading input file completed in " + elapsed.TotalMilliseconds + "ms.");
 
             var extension = Path.GetExtension(outputFile);
-            if (extension == null || extension.Length == 0)
+            if (string.IsNullOrEmpty(extension))
             {
                 throw new ArgumentException("Filename has no extension");
             }

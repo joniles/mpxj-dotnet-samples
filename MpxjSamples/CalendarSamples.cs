@@ -1,4 +1,8 @@
-﻿using MPXJ.Net;
+﻿using System;
+using System.Linq;
+using MPXJ.Net;
+
+namespace MpxjSamples;
 
 public class CalendarSamples
 {
@@ -8,7 +12,7 @@ public class CalendarSamples
     {
         BasicOperations();
         CalendarHierarchy();
-        CalendarUniqueID();
+        CalendarUniqueId();
         DefaultCalendar();
         WorkingOrNonWorkingExceptions();
     }
@@ -18,17 +22,17 @@ public class CalendarSamples
         //
         // Create a default calendar
         //
-        System.Console.WriteLine("Create a default calendar");
-        ProjectFile file = new ProjectFile();
-        ProjectCalendar calendar = file.AddDefaultBaseCalendar();
-        System.Console.WriteLine("The calendar name is " + calendar.Name);
-        System.Console.WriteLine();
+        Console.WriteLine("Create a default calendar");
+        var file = new ProjectFile();
+        var calendar = file.AddDefaultBaseCalendar();
+        Console.WriteLine("The calendar name is " + calendar.Name);
+        Console.WriteLine();
         SimpleCalendarDump(calendar);
 
         //
         // Make Saturday a working day and Monday a non-working day
         //
-        System.Console.WriteLine("Make Saturday a working day and Monday a non-working day");
+        Console.WriteLine("Make Saturday a working day and Monday a non-working day");
         calendar.SetWorkingDay(DayOfWeek.Saturday, true);
         calendar.SetWorkingDay(DayOfWeek.Monday, false);
         SimpleCalendarDump(calendar);
@@ -36,32 +40,32 @@ public class CalendarSamples
         //
         // Show the "raw form" of the working hours for Tuesday
         //
-        System.Console.WriteLine("Show the \"raw form\" of the working hours for Tuesday");
+        Console.WriteLine("Show the \"raw form\" of the working hours for Tuesday");
         var hours = calendar.GetCalendarHours(DayOfWeek.Tuesday);
 
         foreach (var h in hours)
         {
-            System.Console.WriteLine(h);
+            Console.WriteLine(h);
         }
-        System.Console.WriteLine();
+        Console.WriteLine();
 
         //
         // Show a formatted version of Tuesday's working hours
         //
-        System.Console.WriteLine("Show a formatted version of Tuesday's working hours");
-        System.Console.WriteLine(FormatDateRanges(hours));
-        System.Console.WriteLine();
+        Console.WriteLine("Show a formatted version of Tuesday's working hours");
+        Console.WriteLine(FormatDateRanges(hours));
+        Console.WriteLine();
 
         //
         // Show a detailed dump of the whole calendar
         //
-        System.Console.WriteLine("Show a detailed dump of the whole calendar");
+        Console.WriteLine("Show a detailed dump of the whole calendar");
         DetailedCalendarDump(calendar);
 
         //
         // Add some working hours to Saturday using constants supplied by MPXJ
         //
-        System.Console.WriteLine("Add some working hours to Saturday using constants supplied by MPXJ");
+        Console.WriteLine("Add some working hours to Saturday using constants supplied by MPXJ");
         hours = calendar.GetCalendarHours(DayOfWeek.Saturday);
         hours.Add(ProjectCalendarDays.DefaultWorkingMorning);
         hours.Add(ProjectCalendarDays.DefaultWorkingAfternoon);
@@ -70,7 +74,7 @@ public class CalendarSamples
         //
         // Create our own working hours for Saturday
         //
-        System.Console.WriteLine("Create our own working hours for Saturday");
+        Console.WriteLine("Create our own working hours for Saturday");
         var startTime = TimeOnly.Parse("09:00");
         var finishTime = TimeOnly.Parse("14:30");
 
@@ -83,7 +87,7 @@ public class CalendarSamples
         //
         // Set up the same working hours, but use a helper method
         //
-        System.Console.WriteLine("Set up the same working hours, but use a helper method");
+        Console.WriteLine("Set up the same working hours, but use a helper method");
         startTime = new TimeOnly(9, 0);
         finishTime = new TimeOnly(14, 30);
         hours.Clear();
@@ -93,60 +97,60 @@ public class CalendarSamples
         //
         // Show how many working hours there are on Saturday
         //
-        System.Console.WriteLine("Show how many working hours there are on Saturday");
-        Duration duration = calendar.GetWork(DayOfWeek.Saturday, TimeUnit.Hours);
-        System.Console.WriteLine(duration);
-        System.Console.WriteLine();
+        Console.WriteLine("Show how many working hours there are on Saturday");
+        var duration = calendar.GetWork(DayOfWeek.Saturday, TimeUnit.Hours);
+        Console.WriteLine(duration);
+        Console.WriteLine();
 
         //
         // Let's try a naive approach to making Saturday 24 hours
         //
-        System.Console.WriteLine("Let's try a naive approach to making Saturday 24 hours");
+        Console.WriteLine("Let's try a naive approach to making Saturday 24 hours");
         startTime = new TimeOnly(0, 0);
         finishTime = new TimeOnly(0, 0);
         hours.Clear();
         hours.Add(new TimeOnlyRange(startTime, finishTime));
-        System.Console.WriteLine(FormatDateRanges(calendar.GetCalendarHours(DayOfWeek.Saturday)));
+        Console.WriteLine(FormatDateRanges(calendar.GetCalendarHours(DayOfWeek.Saturday)));
 
         duration = calendar.GetWork(DayOfWeek.Saturday, TimeUnit.Hours);
-        System.Console.WriteLine(duration);
-        System.Console.WriteLine();
+        Console.WriteLine(duration);
+        Console.WriteLine();
 
         //
         // Add an exception for a single day
         //
-        System.Console.WriteLine("Add an exception for a single day");
+        Console.WriteLine("Add an exception for a single day");
         var exceptionDate = DateOnly.Parse("2022-05-10");
 
-        bool workingDate = calendar.IsWorkingDate(exceptionDate);
-        System.Console.WriteLine(exceptionDate.ToString(DateFormat) + " is a " + (workingDate ? "working" : "non-working") + " day");
+        var workingDate = calendar.IsWorkingDate(exceptionDate);
+        Console.WriteLine(exceptionDate.ToString(DateFormat) + " is a " + (workingDate ? "working" : "non-working") + " day");
 
-        ProjectCalendarException exception = calendar.AddCalendarException(exceptionDate);
+        var exception = calendar.AddCalendarException(exceptionDate);
         exception.Name = "A day off";
 
         workingDate = calendar.IsWorkingDate(exceptionDate);
-        System.Console.WriteLine(exceptionDate.ToString(DateFormat) + " is a " + (workingDate ? "working" : "non-working") + " day");
+        Console.WriteLine(exceptionDate.ToString(DateFormat) + " is a " + (workingDate ? "working" : "non-working") + " day");
 
         //
         // Make this a half-day
         //
-        System.Console.WriteLine("Make this a half-day");
+        Console.WriteLine("Make this a half-day");
         startTime = new TimeOnly(8, 0);
         finishTime = new TimeOnly(12, 0);
         exception.Add(new TimeOnlyRange(startTime, finishTime));
         workingDate = calendar.IsWorkingDate(exceptionDate);
-        System.Console.WriteLine(exceptionDate.ToString(DateFormat) + " is a " + (workingDate ? "working" : "non-working") + " day");
+        Console.WriteLine(exceptionDate.ToString(DateFormat) + " is a " + (workingDate ? "working" : "non-working") + " day");
 
-        System.Console.WriteLine("Working time on Tuesdays is normally "
-            + calendar.GetWork(DayOfWeek.Tuesday, TimeUnit.Hours) + " but on "
-            + exceptionDate.ToString(DateFormat) + " it is "
-            + calendar.GetWork(exceptionDate, TimeUnit.Hours));
-        System.Console.WriteLine();
+        Console.WriteLine("Working time on Tuesdays is normally "
+                          + calendar.GetWork(DayOfWeek.Tuesday, TimeUnit.Hours) + " but on "
+                          + exceptionDate.ToString(DateFormat) + " it is "
+                          + calendar.GetWork(exceptionDate, TimeUnit.Hours));
+        Console.WriteLine();
 
         //
         // Add an exception affecting a number of days
         //
-        System.Console.WriteLine("Add an exception affecting a number of days");
+        Console.WriteLine("Add an exception affecting a number of days");
         DateDump(calendar, "2022-05-23", "2022-05-28");
 
         var exceptionStartDate = DateOnly.Parse("2022-05-24");
@@ -162,10 +166,10 @@ public class CalendarSamples
         // Represent a "crunch" period in October.
         // Three weeks of 16 hour weekdays, with 8 hour days at weekends
         //
-        System.Console.WriteLine("Represent a \"crunch\" period in October");
+        Console.WriteLine("Represent a \"crunch\" period in October");
         var weekStart = DateOnly.Parse("2022-10-01");
         var weekEnd = DateOnly.Parse("2022-10-21");
-        ProjectCalendarWeek week = calendar.AddWorkWeek();
+        var week = calendar.AddWorkWeek();
         week.Name = "Crunch Time!";
         week.DateRange = new DateOnlyRange(weekStart, weekEnd);
         Enum.GetValues<DayOfWeek>().ToList().ForEach(d => week.SetWorkingDay(d, true));
@@ -189,15 +193,15 @@ public class CalendarSamples
         //
         // Creating a recurring exception
         //
-        RecurringData recurringData = new RecurringData();
-        exception = calendar.AddCalendarException(recurringData);
+        var recurringData = new RecurringData();
+        calendar.AddCalendarException(recurringData);
 
         recurringData.RecurrenceType = RecurrenceType.Yearly;
         recurringData.Occurrences = 5;
         recurringData.DayNumber = 1;
         recurringData.MonthNumber = 1;
         recurringData.StartDate = DateOnly.Parse("2023-01-01");
-        System.Console.WriteLine(recurringData);
+        Console.WriteLine(recurringData);
     }
 
     private void CalendarHierarchy()
@@ -210,12 +214,12 @@ public class CalendarSamples
         var childCalendar = file.AddDefaultDerivedCalendar();
         childCalendar.Parent = parentCalendar;
 
-        System.Console.WriteLine(christmasDay + " is a working day: " + childCalendar.IsWorkingDate(christmasDay));
-        System.Console.WriteLine();
+        Console.WriteLine(christmasDay + " is a working day: " + childCalendar.IsWorkingDate(christmasDay));
+        Console.WriteLine();
 
         parentCalendar.SetCalendarDayType(DayOfWeek.Tuesday, DayType.NonWorking);
-        System.Console.WriteLine("Is " + DayOfWeek.Tuesday + " a working day: " + childCalendar.IsWorkingDay(DayOfWeek.Tuesday));
-        System.Console.WriteLine();
+        Console.WriteLine("Is " + DayOfWeek.Tuesday + " a working day: " + childCalendar.IsWorkingDay(DayOfWeek.Tuesday));
+        Console.WriteLine();
 
         SimpleCalendarDump(parentCalendar);
         SimpleCalendarDump(childCalendar);
@@ -228,24 +232,24 @@ public class CalendarSamples
 
     private void SimpleCalendarDump(ProjectCalendarDays calendar)
     {
-        foreach (DayOfWeek day in Enum.GetValues<DayOfWeek>())
+        foreach (var day in Enum.GetValues<DayOfWeek>())
         {
             var dayType = calendar.GetCalendarDayType(day);
-            System.Console.WriteLine(day + " is a " + dayType + " day");
+            Console.WriteLine(day + " is a " + dayType + " day");
         }
-        System.Console.WriteLine();
+        Console.WriteLine();
     }
 
     private void DetailedCalendarDump(ProjectCalendarDays calendar)
     {
-        foreach (DayOfWeek day in Enum.GetValues<DayOfWeek>())
+        foreach (var day in Enum.GetValues<DayOfWeek>())
         {
             var dayType = calendar.GetCalendarDayType(day);
-            System.Console.WriteLine(day
-                + " is a " + dayType + " day ("
-                + FormatDateRanges(calendar.GetCalendarHours(day)) + ")");
+            Console.WriteLine(day
+                              + " is a " + dayType + " day ("
+                              + FormatDateRanges(calendar.GetCalendarHours(day)) + ")");
         }
-        System.Console.WriteLine();
+        Console.WriteLine();
     }
 
     private string FormatDateRanges(ProjectCalendarHours hours)
@@ -260,13 +264,13 @@ public class CalendarSamples
 
         for (var date = start; date < end; date = date.AddDays(1))
         {
-            System.Console.WriteLine(date.ToString(DateFormat) + "\t" + calendar.GetWork(date, TimeUnit.Hours));
+            Console.WriteLine(date.ToString(DateFormat) + "\t" + calendar.GetWork(date, TimeUnit.Hours));
         }
 
-        System.Console.WriteLine();
+        Console.WriteLine();
     }
 
-    private void CalendarUniqueID()
+    private void CalendarUniqueId()
     {
         var file = new ProjectFile();
         var calendar1 = file.AddCalendar();
@@ -278,20 +282,20 @@ public class CalendarSamples
         var calendar3 = file.AddCalendar();
         calendar3.Name = "Calendar 3";
 
-        foreach (ProjectCalendar c in file.Calendars)
+        foreach (var c in file.Calendars)
         {
-            System.Console.WriteLine(c.Name);
+            Console.WriteLine(c.Name);
         }
-        System.Console.WriteLine();
+        Console.WriteLine();
 
-        foreach (ProjectCalendar c in file.Calendars)
+        foreach (var c in file.Calendars)
         {
-            System.Console.WriteLine(c.Name + " (Unique ID: " + c.UniqueID + ")");
+            Console.WriteLine(c.Name + " (Unique ID: " + c.UniqueID + ")");
         }
-        System.Console.WriteLine();
+        Console.WriteLine();
 
         var calendar = file.Calendars.GetByUniqueID(2);
-        System.Console.WriteLine(calendar.Name);
+        Console.WriteLine(calendar.Name);
     }
 
     private void DefaultCalendar()
@@ -299,8 +303,8 @@ public class CalendarSamples
         var file = new ProjectFile();
         var calendar = file.AddDefaultBaseCalendar();
         file.DefaultCalendar = calendar;
-        System.Console.WriteLine("The default calendar name is " + file.DefaultCalendar.Name);
-        System.Console.WriteLine();
+        Console.WriteLine("The default calendar name is " + file.DefaultCalendar.Name);
+        Console.WriteLine();
     }
 
 
@@ -313,7 +317,7 @@ public class CalendarSamples
         // Add an exception without hours - this makes the day non-working
         //
         var nonWorkingException = calendar.AddCalendarException(DateOnly.Parse("2022-05-23"));
-        System.Console.WriteLine("Exception represents a working day: " + (nonWorkingException.Count > 0));
+        Console.WriteLine("Exception represents a working day: " + (nonWorkingException.Count > 0));
 
         //
         // Add an exception with hours to make this day working but with non-default hours
@@ -322,6 +326,6 @@ public class CalendarSamples
         var startTime = new TimeOnly(9, 0);
         var finishTime = new TimeOnly(13, 0);
         workingException.Add(new TimeOnlyRange(startTime, finishTime));
-        System.Console.WriteLine("Exception represents a working day: " + (nonWorkingException.Count > 0));
+        Console.WriteLine("Exception represents a working day: " + (nonWorkingException.Count > 0));
     }
 }

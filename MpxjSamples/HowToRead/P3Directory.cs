@@ -1,6 +1,6 @@
 ﻿using MPXJ.Net;
 
-namespace MPXJ.Samples.HowToRead;
+namespace MpxjSamples.HowToRead;
 
 public class P3Directory
 {

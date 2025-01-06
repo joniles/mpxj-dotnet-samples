@@ -26,7 +26,7 @@ namespace MpxjJdbc
     /// </summary>
     public class MpxjJdbc
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             try
             {
@@ -36,7 +36,7 @@ namespace MpxjJdbc
                 }
                 else
                 {
-                    MpxjJdbc convert = new MpxjJdbc();
+                    var convert = new MpxjJdbc();
                     convert.Process(args[0], Convert.ToInt32(args[1]), FileFormat.PMXML, args[2]);
                 }
             }
@@ -48,7 +48,7 @@ namespace MpxjJdbc
         }
 
 
-        public void Process(string connectionString, int projectID, FileFormat outputFormat, string outputFile)
+        public void Process(string connectionString, int projectId, FileFormat outputFormat, string outputFile)
         {
             var driver = new SQLServerDriver();
             var connection = driver.connect(connectionString, null);
@@ -58,7 +58,7 @@ namespace MpxjJdbc
             //
             var reader = new PrimaveraDatabaseReader();
             reader.Connection = connection;
-            reader.ProjectID = projectID;
+            reader.ProjectID = projectId;
 
             Console.Out.WriteLine("Reading from database started.");
             var start = DateTime.Now;

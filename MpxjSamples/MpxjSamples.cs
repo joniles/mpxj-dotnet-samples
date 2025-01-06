@@ -1,6 +1,8 @@
 ﻿// Run the samples
 
 using MPXJ.Net;
+using MpxjSamples;
+using MpxjSamples.HowToConvert;
 
 new ConvertMppToMpx().Convert("_TestData/Sample1.mpp", "Sample1.mpx");
 new ConvertUniversal().Convert("_TestData/Sample1.mpp", FileFormat.MPX, "Sample1.mpx");

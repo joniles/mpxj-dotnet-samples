@@ -1,5 +1,7 @@
 ﻿using MPXJ.Net;
 
+namespace MpxjSamples.HowToConvert;
+
 public class ConvertUniversal
 {
     public void Convert(string inputFile, FileFormat format, string outputFile)

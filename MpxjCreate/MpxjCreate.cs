@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using MPXJ.Net;
 
-namespace MpxjSample
+namespace MpxjCreate
 {
-    class MpxjCreate
+    public class MpxjCreate
     {
-        private static readonly Dictionary<string, FileFormat> FileFormatDictionary = new Dictionary<string, FileFormat>()
+        private static readonly Dictionary<string, FileFormat> FileFormatDictionary = new Dictionary<string, FileFormat>
         {
             { "MPX", FileFormat.MPX },
             { "XML", FileFormat.MSPDI },
@@ -15,10 +15,10 @@ namespace MpxjSample
             { "PLANNER", FileFormat.PLANNER },
             { "JSON", FileFormat.JSON },
             { "SDEF", FileFormat.SDEF },
-            { "XER", FileFormat.XER },
+            { "XER", FileFormat.XER }
         };
 
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
 #if NETCOREAPP
             System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
@@ -32,7 +32,7 @@ namespace MpxjSample
                 }
                 else
                 {
-                    MpxjCreate create = new MpxjCreate();
+                    var create = new MpxjCreate();
                     create.Process(args[0]);
                 }
             }
@@ -48,12 +48,12 @@ namespace MpxjSample
             //
             // Create a ProjectFile instance
             //
-            ProjectFile file = new ProjectFile();
+            var file = new ProjectFile();
 
             //
             // Add a default calendar called "Standard"
             //
-            ProjectCalendar calendar = file.AddDefaultBaseCalendar();
+            var calendar = file.AddDefaultBaseCalendar();
 
             //
             // Add a holiday to the calendar to demonstrate calendar exceptions
@@ -67,7 +67,7 @@ namespace MpxjSample
             // the expected results. If this value is not set, it will default to
             // today's date.
             //
-            ProjectProperties properties = file.ProjectProperties;
+            var properties = file.ProjectProperties;
             properties.StartDate = DateTime.Parse("2003-01-01 08:00");
 
             //
@@ -79,10 +79,10 @@ namespace MpxjSample
             //
             // Add resources
             //
-            Resource resource1 = file.AddResource();
+            var resource1 = file.AddResource();
             resource1.Name = "Resource1";
 
-            Resource resource2 = file.AddResource();
+            var resource2 = file.AddResource();
             resource2.Name = "Resource2";
             // This resource is only available 50% of the time
             resource2.Availability.Add(new Availability(DateTimeHelper.StartDateNA, DateTimeHelper.EndDateNA, 50.0));
@@ -90,13 +90,13 @@ namespace MpxjSample
             //
             // Create a summary task
             //
-            Task task1 = file.AddTask();
+            var task1 = file.AddTask();
             task1.Name = "Summary Task";
 
             //
             // Create the first sub task
             //
-            Task task2 = task1.AddTask();
+            var task2 = task1.AddTask();
             task2.Name = "First Sub Task";
             task2.Duration = Duration.GetInstance(10.5, TimeUnit.Days);
             task2.Start = DateTime.Parse("2003-01-01 08:00");
@@ -115,7 +115,7 @@ namespace MpxjSample
             //
             // Create the second sub task
             //
-            Task task3 = task1.AddTask();
+            var task3 = task1.AddTask();
             task3.Name = "Second Sub Task";
             task3.Start = DateTime.Parse("2003-01-11 08:00");
             task3.Duration = Duration.GetInstance(10, TimeUnit.Days);
@@ -128,7 +128,7 @@ namespace MpxjSample
             //
             // Add a milestone
             //
-            Task milestone1 = task1.AddTask();
+            var milestone1 = task1.AddTask();
             milestone1.Name = "Milestone";
             milestone1.Start = DateTime.Parse("2003-01-21 08:00");
             milestone1.Duration = Duration.GetInstance(0, TimeUnit.Days);            
@@ -139,7 +139,7 @@ namespace MpxjSample
             // resource assignments. This is an interesting case as it requires
             // special processing to generate the MSPDI file correctly.
             //
-            Task task4 = file.AddTask();
+            var task4 = file.AddTask();
             task4.Name = "Next Task";
             task4.Duration = Duration.GetInstance(8, TimeUnit.Days);
             task4.Start = DateTime.Parse("2003-01-01 08:00");
@@ -149,8 +149,8 @@ namespace MpxjSample
             //
             // Assign resources to tasks
             //
-            ResourceAssignment assignment1 = task2.AddResourceAssignment(resource1);
-            ResourceAssignment assignment2 = task3.AddResourceAssignment(resource2);
+            var assignment1 = task2.AddResourceAssignment(resource1);
+            var assignment2 = task3.AddResourceAssignment(resource2);
 
             //
             // As the first task is partially complete, and we are adding
@@ -176,7 +176,7 @@ namespace MpxjSample
             //
             // Write a 100% complete task
             //
-            Task task5 = file.AddTask();
+            var task5 = file.AddTask();
             task5.Name = "Last Task";
             task5.Duration = Duration.GetInstance(3, TimeUnit.Days);
             task5.Start = DateTime.Parse("2003-01-01 08:00");

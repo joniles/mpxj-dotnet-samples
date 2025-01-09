@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="net.sf.mpxj-test" Version="13.8.0" />
+    <PackageReference Include="net.sf.mpxj-test" Version="13.9.0" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net45'">

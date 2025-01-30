@@ -14,8 +14,5 @@ new CustomFieldDefinitions().Execute("_TestData/Sample1.mpp");
 new PredecessorsAndSuccessors().Execute("_TestData/Sample1.mpp");
 new ProjectCalendarExceptionsToDates().Execute("_TestData/Sample1.mpp");
 new ReadProjectProperties().Execute("_TestData/Sample1.mpp");
-
-new ReadTaskFields().Execute();
-
-
-
+new ReadTaskFields().Execute("_TestData/Sample1.mpp");
+new CreateTimephased().Execute("create-timephased.xml");

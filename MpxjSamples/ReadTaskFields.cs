@@ -5,7 +5,7 @@ namespace MpxjSamples;
 
 public class ReadTaskFields
 {
-    public void Execute()
+    public void Execute(string filename)
     {
         //
         // Loop through the values in the TaskField enum
@@ -21,7 +21,7 @@ public class ReadTaskFields
         //
         // Read a schedule from a sample file.
         //
-        var file = new UniversalProjectReader().Read("example.mpp");
+        var file = new UniversalProjectReader().Read(filename);
 
         //
         // Let's take a simple approach to examining all of the non-null attributes

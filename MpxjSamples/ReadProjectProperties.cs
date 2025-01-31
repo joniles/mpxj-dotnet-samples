@@ -13,7 +13,7 @@ public class ReadProjectProperties
 
 
         //
-        // Iterate through allproject property fields
+        // Iterate through all project property fields
         //
         var projectProperties = file.ProjectProperties;
         foreach (var field in ProjectField.Values)

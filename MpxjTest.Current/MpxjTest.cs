@@ -1,6 +1,6 @@
 ﻿using junit.framework;
 using junit.textui;
-using net.sf.mpxj.junit;
+using org.mpxj.junit;
 
 namespace MpxjSample
 {

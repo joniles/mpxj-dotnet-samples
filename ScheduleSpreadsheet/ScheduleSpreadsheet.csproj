@@ -7,7 +7,7 @@
 
   <ItemGroup>
     <PackageReference Include="DocumentFormat.OpenXml" Version="3.2.0" />
-    <PackageReference Include="MPXJ.Net" Version="13.12.0" />
+    <PackageReference Include="MPXJ.Net" Version="14.0.0" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,4 +1,4 @@
-﻿using net.sf.mpxj.utility;
+﻿using org.mpxj.utility;
 
 namespace MpxjSamples;
 

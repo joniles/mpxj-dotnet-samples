@@ -2,7 +2,7 @@
 
 <project name="mpxj-dotnet-samples" default="build" basedir=".">
 	<property environment="env"/>
-	<property name="mpxj.version" value="14.0.0" />
+	<property name="mpxj.version" value="14.1.0" />
 
 	<target name="update-version-numbers" description="Ensure that version numbers in the code are up-to-date">
 		<replaceregexp

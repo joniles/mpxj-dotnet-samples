@@ -7,7 +7,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="MPXJ.Net" Version="14.3.1" />
+		<PackageReference Include="MPXJ.Net" Version="14.3.2" />
 		<MavenReference Include="com.microsoft.sqlserver:mssql-jdbc" Version="12.6.2.jre8" />
 	</ItemGroup>
 </Project>

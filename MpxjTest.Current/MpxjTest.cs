@@ -1,6 +1,4 @@
-﻿using junit.framework;
-using junit.textui;
-using org.mpxj.junit;
+﻿using org.mpxj.junit;
 
 namespace MpxjSample
 {
@@ -31,7 +29,7 @@ namespace MpxjSample
                     java.lang.System.setProperty("mpxj.junit.baselinedir", args[2]);
                 }
 
-                TestRunner.runAndWait(new JUnit4TestAdapter(new MpxjTestSuite().getClass()));
+                MpxjTestRunner.run();
             }
         }
     }

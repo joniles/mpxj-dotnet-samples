@@ -1,4 +1,5 @@
-﻿using MPXJ.Net;
+﻿using System.Collections.Generic;
+using MPXJ.Net;
 
 namespace MpxjSamples.HowToWrite;
 
@@ -7,5 +8,10 @@ public class PMXML
     public void Write(ProjectFile project, string fileName)
     {
         new UniversalProjectWriter(FileFormat.PMXML).Write(project, fileName);
+    }
+    
+    public void Write(IList<ProjectFile> projects, string fileName)
+    {
+        new UniversalProjectWriter(FileFormat.PMXML).Write(projects, fileName);
     }
 }

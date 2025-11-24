@@ -1,6 +1,4 @@
-﻿using junit.framework;
-using junit.textui;
-using org.mpxj.junit;
+﻿using org.mpxj.junit;
 
 namespace MpxjSample
 {
@@ -31,7 +29,16 @@ namespace MpxjSample
                     java.lang.System.setProperty("mpxj.junit.baselinedir", args[2]);
                 }
 
-                TestRunner.runAndWait(new JUnit4TestAdapter(new MpxjTestSuite().getClass()));
+                var assembly = typeof(IkvmTestRunner).Assembly;
+                var classNames = new java.util.ArrayList();
+                foreach (var type in assembly.GetTypes())
+                {
+                    if (type.FullName == null || !type.FullName.EndsWith("Test")) continue;
+                    System.Console.WriteLine("Adding: " + type.FullName);
+                    classNames.add(type.FullName);
+                }
+
+                IkvmTestRunner.run(classNames);
             }
         }
     }

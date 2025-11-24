@@ -1,4 +1,5 @@
-﻿using org.mpxj.junit;
+﻿using System.Linq;
+using org.mpxj.junit;
 
 namespace MpxjSample
 {
@@ -29,7 +30,16 @@ namespace MpxjSample
                     java.lang.System.setProperty("mpxj.junit.baselinedir", args[2]);
                 }
 
-                MpxjTestRunner.run();
+                var assembly = typeof(MpxjTestRunner).Assembly;
+                var classNames = new java.util.ArrayList();
+                foreach (var type in assembly.GetTypes())
+                {
+                    if (type.FullName == null || !type.FullName.EndsWith("Test")) continue;
+                    System.Console.WriteLine("Adding: " + type.FullName);
+                    classNames.add(type.FullName);
+                }
+
+                MpxjTestRunner.run(classNames);
             }
         }
     }

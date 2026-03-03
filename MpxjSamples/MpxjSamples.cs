@@ -5,7 +5,7 @@ using MpxjSamples;
 using MpxjSamples.HowToConvert;
 using MpxjSamples.HowToUse.Timephased;
 
-new TimephasedSamples().TimescaleRanges();
+new TimephasedSamples().TimephasedData();
 
 new ConvertMppToMpx().Convert("_TestData/Sample1.mpp", "Sample1.mpx");
 new ConvertUniversal().Convert("_TestData/Sample1.mpp", FileFormat.MPX, "Sample1.mpx");

@@ -381,8 +381,6 @@ public class WriteTimephasedData
       day2RemainingWork.TotalAmount = Duration.GetInstance(0, TimeUnit.Hours);
 
       // Remaining days - 8h/day
-      // Note the gap between the end of the first working day and the start of the next working day.
-      // This gives us the split.
       var remainingWork = new TimephasedWork();
       remainingWork.Start = new DateTime(2024, 3, 6, 8, 0, 0);
       remainingWork.Finish = new DateTime(2024, 3, 11, 17, 0, 0);

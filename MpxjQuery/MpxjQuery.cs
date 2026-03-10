@@ -170,9 +170,42 @@ namespace MpxjQuery
                 var resourceName = resource == null ? "(null resource)" : resource.Name;
 
                 System.Console.WriteLine("Assignment: Task=" + taskName + " Resource=" + resourceName);
+                
+                if (task != null)
+                {
+                    ListTimephasedWork(assignment);
+                }
             }
 
             System.Console.WriteLine();
+        }
+
+        /// <summary>
+        /// Dump timephased work for an assignment. 
+        /// </summary>
+        /// <param name="assignment">target assignment</param>
+        private static void ListTimephasedWork(ResourceAssignment assignment)
+        {
+            var task = assignment.Task;
+
+            var days = (task.Finish - task.Start).Value.Days;
+            if (days > 1)
+            {
+                var dates = new TimescaleHelper().CreateTimescale(task.Start.Value, days, TimescaleUnits.Days);
+
+                var durations = assignment.GetTimephasedWork(dates, TimeUnit.Hours);
+                foreach (var range in dates)
+                {
+                    System.Console.Write(range.Start.Value.ToString("dd/MM/yy") + "\t");
+                }
+                System.Console.WriteLine();
+                
+                foreach (var duration in durations)
+                {
+                    System.Console.Write(duration + "        ".Substring(0, 7) + "\t");
+                }
+                System.Console.WriteLine();
+            }
         }
 
         /// <summary>

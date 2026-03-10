@@ -8,7 +8,6 @@ public class MSPDITimephasedAggregate
     {
         var writer = new MSPDIWriter();
         writer.WriteTimephasedData = true;
-        writer.SplitTimephasedAsDays = true;
         writer.Write(project, fileName);
     }
 }

@@ -14,5 +14,8 @@
     <None Update="_TestData\Sample1.mpp">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="_TestData\timephased-sample.mpp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 </Project>

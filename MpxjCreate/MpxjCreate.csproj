@@ -7,6 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MPXJ.Net" Version="15.3.1" />
+    <PackageReference Include="MPXJ.Net" Version="16.0.0" />
   </ItemGroup>
 </Project>
